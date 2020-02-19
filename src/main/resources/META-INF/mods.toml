@@ -1,0 +1,13 @@
+modLoader="javafml"
+loaderVersion="[28,)"
+issueTrackerURL="https://github.com/cech12/BrickShears/issues"
+[[mods]]
+    modId="brickshears"
+    version="${file.jarVersion}"
+    displayName="Brick Shears"
+    displayURL="https://github.com/cech12/BrickShears"
+    logoFile="logo.png"
+    authors="Cech12"
+    description='''
+    A mod which adds Brick Shears.
+    '''

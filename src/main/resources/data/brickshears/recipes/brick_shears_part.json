@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "brickshears:clay_shears_part"
+  },
+  "result": "brickshears:brick_shears_part",
+  "experience": 0.3,
+  "cookingtime": 200
+}

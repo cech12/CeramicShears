@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "brickshears:brick_shears_part"
+    },
+    {
+      "item": "brickshears:brick_shears_part"
+    }
+  ],
+  "result": {
+    "item": "brickshears:brick_shears"
+  }
+}
