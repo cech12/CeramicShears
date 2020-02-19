@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "brickshears:item/clay_shears_part"
+    "layer0": "ceramicshears:item/ceramic_shears"
   }
 }

@@ -2,6 +2,6 @@
   "replace": false,
   "values": [
     "minecraft:shears",
-    "brickshears:brick_shears"
+    "ceramicshears:ceramic_shears"
   ]
 }

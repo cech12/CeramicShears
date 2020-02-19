@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "brickshears:brick_shears_part"
+      "ceramicshears:clay_shears_part"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "brickshears:brick_shears_part"
+        "recipe": "ceramicshears:ceramic_shears_part"
       }
     }
   },

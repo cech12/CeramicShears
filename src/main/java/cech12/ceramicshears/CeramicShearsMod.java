@@ -1,6 +1,6 @@
-package cech12.brickshears;
+package cech12.ceramicshears;
 
-import cech12.brickshears.api.item.BrickShearsItems;
+import cech12.ceramicshears.api.item.CeramicShearsItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CarvedPumpkinBlock;
@@ -16,13 +16,13 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import static cech12.brickshears.BrickShearsMod.MOD_ID;
+import static cech12.ceramicshears.CeramicShearsMod.MOD_ID;
 
 @Mod(MOD_ID)
 @Mod.EventBusSubscriber
-public class BrickShearsMod {
+public class CeramicShearsMod {
 
-    public static final String MOD_ID = "brickshears";
+    public static final String MOD_ID = "ceramicshears";
 
     //TODO tripwire activation
 
@@ -33,8 +33,8 @@ public class BrickShearsMod {
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         BlockState blockState = event.getWorld().getBlockState(event.getPos());
         ItemStack itemStack = event.getPlayer().getHeldItem(event.getHand());
-        //check for pumpkin and brick shears
-        if (blockState.getBlock() == Blocks.PUMPKIN && itemStack.getItem() == BrickShearsItems.BRICK_SHEARS) {
+        //check for pumpkin and ceramic shears
+        if (blockState.getBlock() == Blocks.PUMPKIN && itemStack.getItem() == CeramicShearsItems.CERAMIC_SHEARS) {
             World worldIn = event.getWorld();
             if (!worldIn.isRemote) {
                 PlayerEntity player = event.getPlayer();

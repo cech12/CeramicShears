@@ -1,13 +1,13 @@
 modLoader="javafml"
 loaderVersion="[28,)"
-issueTrackerURL="https://github.com/cech12/BrickShears/issues"
+issueTrackerURL="https://github.com/cech12/CeramicShears/issues"
 [[mods]]
-    modId="brickshears"
+    modId="ceramicshears"
     version="${file.jarVersion}"
-    displayName="Brick Shears"
-    displayURL="https://github.com/cech12/BrickShears"
+    displayName="Ceramic Shears"
+    displayURL="https://github.com/cech12/CeramicShears"
     logoFile="logo.png"
     authors="Cech12"
     description='''
-    A mod which adds Brick Shears.
+    A mod which adds Ceramic Shears.
     '''
