@@ -4,6 +4,7 @@ import cech12.ceramicshears.api.item.CeramicShearsItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CarvedPumpkinBlock;
+import net.minecraft.block.TripWireBlock;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -13,6 +14,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -49,6 +51,18 @@ public class CeramicShearsMod {
                 worldIn.addEntity(itementity);
                 itemStack.damageItem(1, player, (p_220282_1_) -> p_220282_1_.sendBreakAnimation(event.getHand()));
             }
+        }
+    }
+
+    /**
+     * Add tripwire deactivation.
+     */
+    @SubscribeEvent
+    public static void onBlockBreakEvent(BlockEvent.BreakEvent event) {
+        BlockState blockState = event.getState();
+        ItemStack itemStack = event.getPlayer().getHeldItemMainhand();
+        if (itemStack.getItem() == CeramicShearsItems.CERAMIC_SHEARS && blockState.getBlock() == Blocks.TRIPWIRE) {
+            event.getWorld().setBlockState(event.getPos(), blockState.with(TripWireBlock.DISARMED, true), 4);
         }
     }
 
