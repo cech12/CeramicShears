@@ -35,8 +35,7 @@ public class ModItems {
              * Dispense the specified stack, play the dispense sound and spawn particles.
              */
             @SuppressWarnings("deprecation")
-            protected @Nonnull
-            ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            protected @Nonnull ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
                 World world = source.getWorld();
                 if (!world.isRemote()) {
                     this.successful = false;
