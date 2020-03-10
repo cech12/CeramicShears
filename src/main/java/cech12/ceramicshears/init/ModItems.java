@@ -1,6 +1,8 @@
 package cech12.ceramicshears.init;
 
 import cech12.ceramicshears.api.item.CeramicShearsItems;
+import net.minecraft.block.BeehiveBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.OptionalDispenseBehavior;
@@ -8,6 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShearsItem;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -35,8 +39,7 @@ public class ModItems {
              * Dispense the specified stack, play the dispense sound and spawn particles.
              */
             @SuppressWarnings("deprecation")
-            protected @Nonnull
-            ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            protected @Nonnull ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
                 World world = source.getWorld();
                 if (!world.isRemote()) {
                     this.successful = false;
@@ -59,6 +62,21 @@ public class ModItems {
 
                             this.successful = true;
                             break;
+                        }
+                        if (!this.successful) {
+                            BlockState blockstate = world.getBlockState(blockpos);
+                            if (blockstate.isIn(BlockTags.field_226151_aa_)) {
+                                int i = blockstate.get(BeehiveBlock.field_226873_c_);
+                                if (i >= 5) {
+                                    if (stack.attemptDamageItem(1, world.rand, null)) {
+                                        stack.setCount(0);
+                                    }
+
+                                    BeehiveBlock.func_226878_a_(world, blockpos);
+                                    ((BeehiveBlock)blockstate.getBlock()).func_226877_a_(world, blockstate, blockpos, null, BeehiveTileEntity.State.BEE_RELEASED);
+                                    this.successful = true;
+                                }
+                            }
                         }
                     }
                 }
