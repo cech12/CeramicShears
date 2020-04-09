@@ -46,7 +46,7 @@ public class CeramicShearsMod {
     public static void onLootTableLoad(LootTableLoadEvent event) {
         for (String block : LOOT_BLOCKS) {
             if (event.getName().equals(new ResourceLocation("minecraft", "blocks/" + block))){
-                event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(MOD_ID, "blocks/" + block))).build());
+                event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(MOD_ID, "blocks/" + block))).name(MOD_ID + ":" + block).build());
             }
         }
     }
