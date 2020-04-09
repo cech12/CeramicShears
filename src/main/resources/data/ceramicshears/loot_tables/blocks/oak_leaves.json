@@ -3,17 +3,18 @@
   "pools": [
     {
       "rolls": 1,
+      "name": "ceramicshears:oak_leaves",
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:vine"
+          "name": "minecraft:oak_leaves"
         }
       ],
       "conditions": [
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "tag": "forge:shears"
+            "item": "ceramicshears:ceramic_shears"
           }
         }
       ]

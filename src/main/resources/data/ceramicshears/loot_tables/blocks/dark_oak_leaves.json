@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "name": "ceramicshears:dark_oak_leaves",
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:dark_oak_leaves"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "item": "ceramicshears:ceramic_shears"
+          }
+        }
+      ]
+    }
+  ]
+}

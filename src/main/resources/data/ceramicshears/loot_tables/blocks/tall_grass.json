@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "name": "ceramicshears:tall_grass",
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:grass"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "item": "ceramicshears:ceramic_shears"
+          }
+        }
+      ]
+    }
+  ]
+}
