@@ -15,10 +15,14 @@ import net.minecraft.item.*;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.TableLootEntry;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -34,6 +38,18 @@ import static cech12.ceramicshears.CeramicShearsMod.MOD_ID;
 public class CeramicShearsMod {
 
     public static final String MOD_ID = "ceramicshears";
+
+    private static final String[] LOOT_BLOCKS = {"acacia_leaves", "birch_leaves", "cobweb", "dark_oak_leaves", "dead_bush", "fern", "grass",
+            "jungle_leaves", "large_fern", "oak_leaves", "seagrass", "spruce_leaves", "tall_grass", "tall_seagrass", "vine"};
+
+    @SubscribeEvent
+    public static void onLootTableLoad(LootTableLoadEvent event) {
+        for (String block : LOOT_BLOCKS) {
+            if (event.getName().equals(new ResourceLocation("minecraft", "blocks/" + block))){
+                event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(MOD_ID, "blocks/" + block))).build());
+            }
+        }
+    }
 
     /**
      * Add ceramic shears block interactions.

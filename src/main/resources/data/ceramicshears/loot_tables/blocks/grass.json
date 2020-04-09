@@ -3,17 +3,18 @@
   "pools": [
     {
       "rolls": 1,
+      "name": "ceramicshears:grass",
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:seagrass"
+          "name": "minecraft:grass"
         }
       ],
       "conditions": [
         {
           "condition": "minecraft:match_tool",
           "predicate": {
-            "tag": "forge:shears"
+            "item": "ceramicshears:ceramic_shears"
           }
         }
       ]

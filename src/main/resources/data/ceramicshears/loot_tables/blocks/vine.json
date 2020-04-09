@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "name": "ceramicshears:vine",
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:vine"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "item": "ceramicshears:ceramic_shears"
+          }
+        }
+      ]
+    }
+  ]
+}
