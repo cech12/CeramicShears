@@ -1,0 +1,11 @@
+{
+  "type": "ceramicshears:ceramic_shears_harvest",
+  "conditions": [
+    {
+      "condition": "minecraft:match_tool",
+      "predicate": {
+        "item": "ceramicshears:ceramic_shears"
+      }
+    }
+  ]
+}

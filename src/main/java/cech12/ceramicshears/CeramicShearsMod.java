@@ -1,6 +1,7 @@
 package cech12.ceramicshears;
 
 import cech12.ceramicshears.api.item.CeramicShearsItems;
+import cech12.ceramicshears.loot_modifiers.CeramicShearsLootModifier;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
@@ -15,20 +16,20 @@ import net.minecraft.item.*;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.TableLootEntry;
-import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 
 import static cech12.ceramicshears.CeramicShearsMod.MOD_ID;
@@ -39,16 +40,17 @@ public class CeramicShearsMod {
 
     public static final String MOD_ID = "ceramicshears";
 
-    private static final String[] LOOT_BLOCKS = {"acacia_leaves", "birch_leaves", "cobweb", "dark_oak_leaves", "dead_bush", "fern", "grass",
-            "jungle_leaves", "large_fern", "oak_leaves", "seagrass", "spruce_leaves", "tall_grass", "tall_seagrass", "vine"};
+    public CeramicShearsMod() {
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(GlobalLootModifierSerializer.class, this::onRegisterModifierSerializers);
+    }
 
-    @SubscribeEvent
-    public static void onLootTableLoad(LootTableLoadEvent event) {
-        for (String block : LOOT_BLOCKS) {
-            if (event.getName().equals(new ResourceLocation("minecraft", "blocks/" + block))){
-                event.getTable().addPool(LootPool.builder().addEntry(TableLootEntry.builder(new ResourceLocation(MOD_ID, "blocks/" + block))).name(MOD_ID + ":" + block).build());
-            }
-        }
+    /**
+     * Add ceramic shears loot modifiers to be compatible with other mods and change loot behaviour of vanilla blocks influenced by shears.
+     */
+    public void onRegisterModifierSerializers(@Nonnull final RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
+        event.getRegistry().register(
+                new CeramicShearsLootModifier.Serializer().setRegistryName(MOD_ID, "ceramic_shears_harvest")
+        );
     }
 
     /**
