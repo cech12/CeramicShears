@@ -11,3 +11,15 @@ issueTrackerURL="https://github.com/cech12/CeramicShears/issues"
     description='''
     A mod which adds Ceramic Shears.
     '''
+[[dependencies.ceramicshears]]
+    modId="forge"
+    mandatory=true
+    versionRange="[28.2.4,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.ceramicshears]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.14.4]"
+    ordering="NONE"
+    side="BOTH"
