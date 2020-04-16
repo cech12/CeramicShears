@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[28,)"
+loaderVersion="[31,)"
 issueTrackerURL="https://github.com/cech12/CeramicShears/issues"
 [[mods]]
     modId="ceramicshears"
@@ -11,3 +11,15 @@ issueTrackerURL="https://github.com/cech12/CeramicShears/issues"
     description='''
     A mod which adds Ceramic Shears.
     '''
+[[dependencies.ceramicshears]]
+    modId="forge"
+    mandatory=true
+    versionRange="[31.1.18,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.ceramicshears]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15.2,)"
+    ordering="NONE"
+    side="BOTH"
