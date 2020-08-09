@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[31,)"
+loaderVersion="[32,)"
 issueTrackerURL="https://github.com/cech12/CeramicShears/issues"
 [[mods]]
     modId="ceramicshears"
@@ -14,12 +14,12 @@ issueTrackerURL="https://github.com/cech12/CeramicShears/issues"
 [[dependencies.ceramicshears]]
     modId="forge"
     mandatory=true
-    versionRange="[31.1.18,)"
+    versionRange="[32.0.70,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.ceramicshears]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2,)"
+    versionRange="[1.16.1,)"
     ordering="NONE"
     side="BOTH"

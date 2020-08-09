@@ -2,7 +2,6 @@ package cech12.ceramicshears;
 
 import cech12.ceramicshears.api.item.CeramicShearsItems;
 import cech12.ceramicshears.loot_modifiers.CeramicShearsLootModifier;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -11,7 +10,6 @@ import net.minecraft.block.CarvedPumpkinBlock;
 import net.minecraft.block.TripWireBlock;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.ActionResultType;
@@ -83,30 +81,27 @@ public class CeramicShearsMod {
             }
             //add carving behaviour to beehives and bee nests. mostly copied from BeehiveBlock class.
             if (blockState.getBlock() == Blocks.BEE_NEST || blockState.getBlock() == Blocks.BEEHIVE) {
-                int level = blockState.get(BeehiveBlock.field_226873_c_);
+                int level = blockState.get(BeehiveBlock.HONEY_LEVEL);
                 if (level >= 5) {
                     World world = event.getWorld();
                     if (!world.isRemote) {
                         PlayerEntity player = event.getPlayer();
                         BlockPos pos = event.getPos();
                         BeehiveBlock block = (BeehiveBlock) blockState.getBlock();
-                        world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.field_226133_ah_, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-                        BeehiveBlock.func_226878_a_(world, pos);
+                        world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.BLOCK_BEEHIVE_SHEAR, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+                        BeehiveBlock.dropHoneyComb(world, pos);
                         itemStack.damageItem(1, player, (p_220282_1_) -> p_220282_1_.sendBreakAnimation(event.getHand()));
-                        if (!CampfireBlock.func_226914_b_(world, pos, 5)) {
+                        if (!CampfireBlock.func_235474_a_(world, pos)) {
                             try {
-                                Method func_226882_d_ = ObfuscationReflectionHelper.findMethod(BeehiveBlock.class, "func_226882_d_", World.class, BlockPos.class);
-                                if (func_226882_d_.invoke(block, world, pos).equals(true)) {
-                                    Method func_226881_b_ = ObfuscationReflectionHelper.findMethod(BeehiveBlock.class, "func_226881_b_", World.class, BlockPos.class);
-                                    func_226881_b_.invoke(block, world, pos);
+                                Method hasBees = ObfuscationReflectionHelper.findMethod(BeehiveBlock.class, "func_226882_d_", World.class, BlockPos.class);
+                                if (hasBees.invoke(block, world, pos).equals(true)) {
+                                    Method angerNearbyBees = ObfuscationReflectionHelper.findMethod(BeehiveBlock.class, "func_226881_b_", World.class, BlockPos.class);
+                                    angerNearbyBees.invoke(block, world, pos);
                                 }
-                                block.func_226877_a_(world, blockState, pos, player, BeehiveTileEntity.State.EMERGENCY);
+                                block.takeHoney(world, blockState, pos, player, BeehiveTileEntity.State.EMERGENCY);
                             } catch (Exception ignored) {}
                         } else {
-                            block.func_226876_a_(world, blockState, pos);
-                            if (player instanceof ServerPlayerEntity) {
-                                CriteriaTriggers.field_229863_J_.func_226695_a_((ServerPlayerEntity)player, pos, itemStack);
-                            }
+                            block.takeHoney(world, blockState, pos);
                         }
                     }
                     event.setCanceled(true);

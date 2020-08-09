@@ -15,6 +15,7 @@ import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -38,17 +39,16 @@ public class ModItems {
             /**
              * Dispense the specified stack, play the dispense sound and spawn particles.
              */
-            @SuppressWarnings("deprecation")
-            protected @Nonnull ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+            protected @Nonnull ItemStack dispenseStack(@Nonnull IBlockSource source, @Nonnull ItemStack stack) {
                 World world = source.getWorld();
                 if (!world.isRemote()) {
-                    this.successful = false;
+                    this.func_239796_a_(false); // this.successful = false;
                     BlockPos blockpos = source.getBlockPos().offset(source.getBlockState().get(DispenserBlock.FACING));
 
-                    for(net.minecraft.entity.Entity entity : world.getEntitiesInAABBexcluding(null, new AxisAlignedBB(blockpos), e -> !e.isSpectator() && e instanceof net.minecraftforge.common.IShearable)) {
-                        net.minecraftforge.common.IShearable target = (net.minecraftforge.common.IShearable)entity;
+                    for(net.minecraft.entity.Entity entity : world.getEntitiesInAABBexcluding(null, new AxisAlignedBB(blockpos), e -> !e.isSpectator() && e instanceof IForgeShearable)) {
+                        IForgeShearable target = (IForgeShearable)entity;
                         if (target.isShearable(stack, world, blockpos)) {
-                            java.util.List<ItemStack> drops = target.onSheared(stack, entity.world, blockpos,
+                            java.util.List<ItemStack> drops = target.onSheared(null, stack, entity.world, blockpos,
                                     net.minecraft.enchantment.EnchantmentHelper.getEnchantmentLevel(net.minecraft.enchantment.Enchantments.FORTUNE, stack));
                             java.util.Random rand = new java.util.Random();
                             drops.forEach(d -> {
@@ -60,21 +60,20 @@ public class ModItems {
                                 stack.setCount(0);
                             }
 
-                            this.successful = true;
+                            this.func_239796_a_(true); // this.successful = true;
                             break;
                         }
-                        if (!this.successful) {
+                        if (!this.func_239795_a_()) { // !this.successful
                             BlockState blockstate = world.getBlockState(blockpos);
-                            if (blockstate.isIn(BlockTags.field_226151_aa_)) {
-                                int i = blockstate.get(BeehiveBlock.field_226873_c_);
+                            if (blockstate.isIn(BlockTags.BEEHIVES)) {
+                                int i = blockstate.get(BeehiveBlock.HONEY_LEVEL);
                                 if (i >= 5) {
                                     if (stack.attemptDamageItem(1, world.rand, null)) {
                                         stack.setCount(0);
                                     }
-
-                                    BeehiveBlock.func_226878_a_(world, blockpos);
-                                    ((BeehiveBlock)blockstate.getBlock()).func_226877_a_(world, blockstate, blockpos, null, BeehiveTileEntity.State.BEE_RELEASED);
-                                    this.successful = true;
+                                    BeehiveBlock.dropHoneyComb(world, blockpos);
+                                    ((BeehiveBlock)blockstate.getBlock()).takeHoney(world, blockstate, blockpos, null, BeehiveTileEntity.State.BEE_RELEASED);
+                                    this.func_239796_a_(true); // this.successful = true;
                                 }
                             }
                         }
