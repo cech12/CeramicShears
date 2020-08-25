@@ -1,6 +1,7 @@
 modLoader="javafml"
 loaderVersion="[32,)"
 issueTrackerURL="https://github.com/cech12/CeramicShears/issues"
+license="The MIT License (MIT)"
 [[mods]]
     modId="ceramicshears"
     version="${file.jarVersion}"
