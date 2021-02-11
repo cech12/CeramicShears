@@ -42,7 +42,7 @@ public class ModItems {
             protected @Nonnull ItemStack dispenseStack(@Nonnull IBlockSource source, @Nonnull ItemStack stack) {
                 World world = source.getWorld();
                 if (!world.isRemote()) {
-                    this.func_239796_a_(false); // this.successful = false;
+                    this.setSuccessful(false);
                     BlockPos blockpos = source.getBlockPos().offset(source.getBlockState().get(DispenserBlock.FACING));
 
                     for(net.minecraft.entity.Entity entity : world.getEntitiesInAABBexcluding(null, new AxisAlignedBB(blockpos), e -> !e.isSpectator() && e instanceof IForgeShearable)) {
@@ -60,10 +60,10 @@ public class ModItems {
                                 stack.setCount(0);
                             }
 
-                            this.func_239796_a_(true); // this.successful = true;
+                            this.setSuccessful(true);
                             break;
                         }
-                        if (!this.func_239795_a_()) { // !this.successful
+                        if (!this.isSuccessful()) {
                             BlockState blockstate = world.getBlockState(blockpos);
                             if (blockstate.isIn(BlockTags.BEEHIVES)) {
                                 int i = blockstate.get(BeehiveBlock.HONEY_LEVEL);
@@ -73,7 +73,7 @@ public class ModItems {
                                     }
                                     BeehiveBlock.dropHoneyComb(world, blockpos);
                                     ((BeehiveBlock)blockstate.getBlock()).takeHoney(world, blockstate, blockpos, null, BeehiveTileEntity.State.BEE_RELEASED);
-                                    this.func_239796_a_(true); // this.successful = true;
+                                    this.setSuccessful(true);
                                 }
                             }
                         }
