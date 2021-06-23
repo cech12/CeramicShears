@@ -6,18 +6,57 @@ import com.alcatrazescapee.mcjunitlib.framework.IntegrationTest;
 import com.alcatrazescapee.mcjunitlib.framework.IntegrationTestClass;
 import com.alcatrazescapee.mcjunitlib.framework.IntegrationTestHelper;
 import net.minecraft.block.BeehiveBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.RedstoneTorchBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @IntegrationTestClass(value = "world")
 public class WorldTests {
 
     private static final BlockPos INTERACTION_POSITION = new BlockPos(1, 1, 1);
+
+
+    @IntegrationTest(value = "tall_grass_large_fern")
+    public void testBreakingTallGrassAndLargeFern(IntegrationTestHelper helper) {
+        BlockPos lowerLargeFernPos = new BlockPos(0, 1, 0);
+        BlockPos upperTallGrassPos = new BlockPos(1, 2, 0);
+
+        Map<BlockPos, Block> blockPositions = new HashMap<BlockPos, Block>() {{
+              put(lowerLargeFernPos, Blocks.FERN);
+              put(upperTallGrassPos, Blocks.GRASS);
+        }};
+        final ServerWorld world = ServerLifecycleHooks.getCurrentServer().overworld();
+        ItemStack shears = new ItemStack(CeramicShearsItems.CERAMIC_SHEARS);
+
+        blockPositions.forEach((blockPos, dropBlock) -> {
+            helper.relativePos(blockPos).ifPresent(pos -> {
+                BlockState state = world.getBlockState(pos);
+                LootContext.Builder lootContextBuilder = (new LootContext.Builder(world))
+                        .withRandom(world.random)
+                        .withParameter(LootParameters.ORIGIN, Vector3d.atCenterOf(pos))
+                        .withParameter(LootParameters.TOOL, shears);
+                List<ItemStack> drops = state.getDrops(lootContextBuilder);
+                boolean blockContained = drops.stream().anyMatch(itemStack -> !itemStack.isEmpty() && itemStack.getItem() instanceof BlockItem && ((BlockItem) itemStack.getItem()).getBlock() == dropBlock);
+                helper.assertTrue(() -> blockContained, "Breaking " + state.getBlock()  + " with shears should drop " + dropBlock + " but instead it drops " + drops);
+            });
+        });
+    }
 
     @IntegrationTest(value = "pumpkin")
     public void testInteractionWithPumpkin(IntegrationTestHelper helper) {
