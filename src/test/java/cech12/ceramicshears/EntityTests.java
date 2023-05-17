@@ -33,7 +33,7 @@ public class EntityTests {
         for (EntityType<?> entityType : SHEARABLE_ENTITIES) {
             for (boolean isCreative : creativeStates) {
                 String entityName = Objects.requireNonNull(ForgeRegistries.ENTITY_TYPES.getKey(entityType)).getPath();
-                String testName = "test" + ((isCreative) ? "creative" : "survival") + "shearing" + entityName;
+                String testName = "test_" + ((isCreative) ? "creative" : "survival") + "_shearing_" + entityName;
                 testFunctions.add(new TestFunction(
                         "defaultBatch",
                         testName,
