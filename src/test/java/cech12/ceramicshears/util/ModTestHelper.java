@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.util.FakePlayerFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -67,6 +68,18 @@ public class ModTestHelper {
         player.setItemInHand(InteractionHand.MAIN_HAND, mainHandStack);
         InteractionResult interactionResult = player.interactOn(entity, InteractionHand.MAIN_HAND);
         return new PlayerInteractionResult(player, interactionResult, player.getItemInHand(InteractionHand.MAIN_HAND));
+    }
+
+    public static InteractionResultHolder<ItemStack> destroyBlockWithItem(GameTestHelper helper, BlockPos pos, ItemStack stack) {
+        BlockPos actualPos = helper.absolutePos(pos);
+        ServerPlayer player = FakePlayerFactory.getMinecraft(helper.getLevel());
+        player.setItemInHand(InteractionHand.MAIN_HAND, stack);
+        player.absMoveTo(actualPos.getX() + 0.5D, actualPos.getY(), actualPos.getZ() + 0.5D, 0F, 90F);
+        InteractionResult actionResultType = InteractionResult.FAIL;
+        if (player.gameMode.destroyBlock(actualPos)) {
+            actionResultType = InteractionResult.SUCCESS;
+        }
+        return new InteractionResultHolder<>(actionResultType, player.getItemInHand(InteractionHand.MAIN_HAND));
     }
 
 }

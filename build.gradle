@@ -45,6 +45,7 @@ minecraft {
             mods {
                 ceramicshears {
                     source sourceSets.main
+                    source sourceSets.test
                 }
             }
         }
