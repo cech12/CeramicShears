@@ -6,7 +6,7 @@ import net.minecraft.core.dispenser.ShearsDispenseItemBehavior;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -48,12 +48,12 @@ public class CeramicShearsMod {
     }
 
     @SubscribeEvent
-    public static void addItemsToTabs(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == CreativeModeTabs.INGREDIENTS) {
+    public static void addItemsToTabs(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(CLAY_SHEARS_PART);
             event.accept(CERAMIC_SHEARS_PART);
         }
-        if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(CERAMIC_SHEARS);
         }
     }

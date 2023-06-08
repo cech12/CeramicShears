@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RedstoneTorchBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.gametest.GameTestHolder;
@@ -41,8 +41,7 @@ public class WorldTests {
         ItemStack shears = new ItemStack(CeramicShearsMod.CERAMIC_SHEARS.get());
         BlockPos pos = test.absolutePos(lowerLargeFernPos);
         BlockState state = test.getBlockState(lowerLargeFernPos);
-        LootContext.Builder lootContextBuilder = (new LootContext.Builder(test.getLevel()))
-                .withRandom(test.getLevel().random)
+        LootParams.Builder lootContextBuilder = (new LootParams.Builder(test.getLevel()))
                 .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos))
                 .withParameter(LootContextParams.TOOL, shears);
         List<ItemStack> drops = state.getDrops(lootContextBuilder);
@@ -60,8 +59,7 @@ public class WorldTests {
         ItemStack shears = new ItemStack(CeramicShearsMod.CERAMIC_SHEARS.get());
         BlockPos pos = test.absolutePos(upperTallGrassPos);
         BlockState state = test.getBlockState(upperTallGrassPos);
-        LootContext.Builder lootContextBuilder = (new LootContext.Builder(test.getLevel()))
-                .withRandom(test.getLevel().random)
+        LootParams.Builder lootContextBuilder = (new LootParams.Builder(test.getLevel()))
                 .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos))
                 .withParameter(LootContextParams.TOOL, shears);
         List<ItemStack> drops = state.getDrops(lootContextBuilder);

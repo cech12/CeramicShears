@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.MultifaceBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.gametest.GameTestHolder;
@@ -35,6 +35,7 @@ public class BlockBreakingTests {
             Blocks.ACACIA_LEAVES,
             Blocks.AZALEA_LEAVES,
             Blocks.BIRCH_LEAVES,
+            Blocks.CHERRY_LEAVES,
             Blocks.DARK_OAK_LEAVES,
             Blocks.FLOWERING_AZALEA_LEAVES,
             Blocks.JUNGLE_LEAVES,
@@ -44,10 +45,10 @@ public class BlockBreakingTests {
             //misc
             Blocks.COBWEB,
             Blocks.DEAD_BUSH,
+            Blocks.FERN,
             Blocks.GLOW_LICHEN,
             Blocks.GRASS,
             Blocks.HANGING_ROOTS,
-            Blocks.FERN,
             Blocks.NETHER_SPROUTS,
             Blocks.SEAGRASS,
             Blocks.TWISTING_VINES,
@@ -85,8 +86,7 @@ public class BlockBreakingTests {
                             state = state.setValue(MultifaceBlock.getFaceProperty(Direction.DOWN), Boolean.TRUE);
                         }
 
-                        LootContext.Builder lootContextBuilder = (new LootContext.Builder(test.getLevel()))
-                                .withRandom(test.getLevel().random)
+                        LootParams.Builder lootContextBuilder = (new LootParams.Builder(test.getLevel()))
                                 .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(new BlockPos(0, 0, 0))) //is needed to generate loot!
                                 .withParameter(LootContextParams.TOOL, shears);
                         List<ItemStack> drops = state.getDrops(lootContextBuilder);

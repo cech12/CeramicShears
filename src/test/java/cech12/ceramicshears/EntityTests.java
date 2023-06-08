@@ -58,7 +58,7 @@ public class EntityTests {
                             if (!isCreative && result.getObject().getDamageValue() == 0) {
                                 test.fail("The wooden shears were not damaged after survival interacting with a " + entityName);
                             }
-                            if (entity instanceof IForgeShearable && ((IForgeShearable) entity).isShearable(shears, entity.level, entity.getOnPos())) {
+                            if (entity instanceof IForgeShearable && ((IForgeShearable) entity).isShearable(shears, entity.level(), entity.getOnPos())) {
                                 test.fail("The " + entityName + " was not sheared after interacting with wooden shears");
                             }
                             test.succeed();

@@ -3,9 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Forge Recommended Versioning](https://mcforge.readthedocs.io/en/latest/conventions/versioning/).
 
+## [1.20-1.8.0.0] - 2023-06-08
+### Changed
+- Update mod to Forge 1.20-46.0.1 #20
+
 ## [1.19.3-1.7.1.2] - 2023-02-05
 ### Fixed
--  Added pt_br and pt_pt translations #18 (thanks to sanduicheirainox)
+- Added pt_br and pt_pt translations #18 (thanks to sanduicheirainox)
 
 ## [1.19.3-1.7.1.1] - 2022-12-30
 ### Fixed
