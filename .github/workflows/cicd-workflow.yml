@@ -56,6 +56,7 @@ jobs:
       curseforge-id: 363553
       game-versions: |
         1.20
+        1.20.1
       release-type: release
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -70,6 +71,7 @@ jobs:
       modrinth-id: qaMUpFM4
       game-versions: |
         1.20
+        1.20.1
       release-type: release
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
