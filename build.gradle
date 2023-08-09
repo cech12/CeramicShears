@@ -2,7 +2,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'net.neoforged.gradle' version '[6.0,6.2)'
 }
 
 version = "${minecraft_version}-${mod_version}"
@@ -94,7 +94,7 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+    minecraft "net.neoforged:forge:${project.minecraft_version}-${project.forge_version}"
 }
 
 tasks.named('processResources', ProcessResources).configure {

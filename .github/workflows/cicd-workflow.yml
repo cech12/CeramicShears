@@ -48,9 +48,11 @@ jobs:
       java-version: 17
       curseforge-id: 363553
       game-versions: |
-        1.20
         1.20.1
       release-type: release
+      loaders: |
+        neoforge
+        forge
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
       curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
@@ -63,9 +65,11 @@ jobs:
       java-version: 17
       modrinth-id: qaMUpFM4
       game-versions: |
-        1.20
         1.20.1
       release-type: release
+      loaders: |
+        neoforge
+        forge
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
       modrinth-token: ${{ secrets.MODRINTH_API_KEY }}
