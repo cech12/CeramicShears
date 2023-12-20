@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "de.cech12.ceramicshears.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "mixins.extendedmushrooms.refmap.json",
+  "mixins": [
+    "MixinItem"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}
