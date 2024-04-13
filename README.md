@@ -9,7 +9,13 @@
 [![License](https://img.shields.io/github/license/cech12/CeramicShears)](http://opensource.org/licenses/MIT)
 [![](https://img.shields.io/discord/752506676719910963.svg?style=flat&color=informational&logo=discord&label=Discord)](https://discord.gg/gRUFH5t)
 
-This is a **Minecraft Forge** mod which adds **Ceramic Shears** to the game.
+This is a Minecraft mod which adds **Ceramic Shears** to the game. (Forge, NeoForge, Fabric, Quilt)
+
+The Fabric / Quilt version needs the following mods:
+
+- Fabric API ([Github](https://github.com/FabricMC/fabric), [Curseforge](https://www.curseforge.com/minecraft/mc-mods/fabric-api), [Modrinth](https://modrinth.com/mod/fabric-api))
+- Cloth Config API ([Github](https://github.com/shedaniel/cloth-config), [Curseforge](https://www.curseforge.com/minecraft/mc-mods/cloth-config), [Modrinth](https://modrinth.com/mod/cloth-config))
+- WSMLMB ([Github](https://github.com/AnAwesomGuy/wsmlmb), [Curseforge](https://www.curseforge.com/minecraft/mc-mods/wsmlmb), [Modrinth](https://modrinth.com/mod/wsmlmb)
 
 ![Crafting](material/crafting.png)
            

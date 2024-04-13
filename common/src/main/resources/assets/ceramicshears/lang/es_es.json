@@ -1,5 +1,11 @@
 {
   "item.ceramicshears.ceramic_shears": "Tijeras de cerámica",
   "item.ceramicshears.ceramic_shears_part": "Parte de tijeras de cerámica",
-  "item.ceramicshears.clay_shears_part": "Parte de tijeras de arcilla"
+  "item.ceramicshears.clay_shears_part": "Parte de tijeras de arcilla",
+
+  "text.autoconfig.ceramicshears.option.DURABILITY": "Ceramic Shears Durability",
+  "text.autoconfig.ceramicshears.option.DURABILITY.@Tooltip[0]": "§6§lCeramic Shears Durability",
+  "text.autoconfig.ceramicshears.option.DURABILITY.@Tooltip[1]": "Defines the maximum durability of Ceramic Shears.",
+  "text.autoconfig.ceramicshears.option.DURABILITY.@Tooltip[2]": "§7§oDefault: 179",
+  "text.autoconfig.ceramicshears.option.DURABILITY.@Tooltip[3]": "§7§o0: deactivates the durability"
 }
