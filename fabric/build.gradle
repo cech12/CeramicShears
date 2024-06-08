@@ -11,7 +11,6 @@ base {
 repositories {
     maven { url "https://maven.shedaniel.me/" }
     maven { url "https://maven.terraformersmc.com/releases/" }
-    maven { url "https://api.modrinth.com/maven" }
 }
 
 dependencies {
@@ -24,9 +23,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
     modImplementation("com.terraformersmc:modmenu:${mod_menu_version}")
-    modImplementation "maven.modrinth:wsmlmb:${wsmlmb_version}"
 
-    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     compileOnly project(":common")
 }
 

@@ -1,24 +1,26 @@
 package de.cech12.ceramicshears;
 
-import de.cech12.ceramicshears.item.CeramicShearsItem;
+import de.cech12.ceramicshears.item.NeoforgeCeramicShearsItem;
 import net.minecraft.core.dispenser.ShearsDispenseItemBehavior;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 /**
  * Mod class for the Neoforge loader.
  */
+@SuppressWarnings("unused")
 @Mod(Constants.MOD_ID)
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class CeramicShearsMod {
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+public class NeoforgeCeramicShearsMod {
 
     /** mod specific item registry */
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Constants.MOD_ID);
@@ -27,13 +29,15 @@ public class CeramicShearsMod {
     public static final DeferredItem<Item> CLAY_SHEARS_PART = ITEMS.register("clay_shears_part", () -> new Item(new Item.Properties()));
     /** ceramic shears part item registry object */
     public static final DeferredItem<Item> CERAMIC_SHEARS_PART = ITEMS.register("ceramic_shears_part", () -> new Item(new Item.Properties()));
-    /** ceramic shears item registry object */
-    public static final DeferredItem<Item> CERAMIC_SHEARS = ITEMS.register("ceramic_shears", CeramicShearsItem::new);
+
+    static {
+        Constants.CERAMIC_SHEARS = ITEMS.register("ceramic_shears", NeoforgeCeramicShearsItem::new);
+    }
 
     /**
      * Constructor of a mod instance.
      */
-    public CeramicShearsMod(IEventBus modEventBus) {
+    public NeoforgeCeramicShearsMod(IEventBus modEventBus) {
         ITEMS.register(modEventBus);
         CommonLoader.init();
     }
@@ -44,7 +48,7 @@ public class CeramicShearsMod {
      */
     @SubscribeEvent
     public static void registerDispenseBehavior(FMLCommonSetupEvent event) {
-        DispenserBlock.registerBehavior(CERAMIC_SHEARS.get(), new ShearsDispenseItemBehavior());
+        DispenserBlock.registerBehavior(Constants.CERAMIC_SHEARS.get(), new ShearsDispenseItemBehavior());
     }
 
     /**
@@ -58,7 +62,7 @@ public class CeramicShearsMod {
             event.accept(CERAMIC_SHEARS_PART);
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            event.accept(CERAMIC_SHEARS);
+            event.accept(Constants.CERAMIC_SHEARS.get());
         }
     }
 

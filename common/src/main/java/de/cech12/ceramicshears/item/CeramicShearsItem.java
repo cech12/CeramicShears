@@ -1,5 +1,6 @@
 package de.cech12.ceramicshears.item;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ShearsItem;
 
 /**
@@ -11,7 +12,7 @@ public class CeramicShearsItem extends ShearsItem {
      * Constructs a CeramicShearsItem by configure it to stack to one item.
      */
     public CeramicShearsItem() {
-        super((new Properties()).stacksTo(1));
+        super((new Properties()).stacksTo(1).component(DataComponents.TOOL, ShearsItem.createToolProperties()));
     }
 
 }

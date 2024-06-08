@@ -4,7 +4,11 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "ceramicshears.refmap.json",
   "mixins": [
-    "MixinItemStack"
+    "BlockInteractShearsMixin",
+    "EntityInteractShearsMixin",
+    "MatchToolMixin",
+    "TripwireBlockMixin",
+    "accessor.HolderSetDirectAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

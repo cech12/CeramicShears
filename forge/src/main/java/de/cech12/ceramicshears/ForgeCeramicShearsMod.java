@@ -18,9 +18,10 @@ import net.minecraftforge.registries.RegistryObject;
 /**
  * Mod class for the Forge loader.
  */
+@SuppressWarnings("unused")
 @Mod(Constants.MOD_ID)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class CeramicShearsMod {
+public class ForgeCeramicShearsMod {
 
     /** mod specific item registry */
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Constants.MOD_ID);
@@ -29,13 +30,15 @@ public class CeramicShearsMod {
     public static final RegistryObject<Item> CLAY_SHEARS_PART = ITEMS.register("clay_shears_part", () -> new Item(new Item.Properties()));
     /** ceramic shears part item registry object */
     public static final RegistryObject<Item> CERAMIC_SHEARS_PART = ITEMS.register("ceramic_shears_part", () -> new Item(new Item.Properties()));
-    /** ceramic shears item registry object */
-    public static final RegistryObject<Item> CERAMIC_SHEARS = ITEMS.register("ceramic_shears", CeramicShearsItem::new);
+
+    static {
+        Constants.CERAMIC_SHEARS = ITEMS.register("ceramic_shears", CeramicShearsItem::new);
+    }
 
     /**
      * Constructor of a mod instance.
      */
-    public CeramicShearsMod() {
+    public ForgeCeramicShearsMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ITEMS.register(modEventBus);
         CommonLoader.init();
@@ -47,7 +50,7 @@ public class CeramicShearsMod {
      */
     @SubscribeEvent
     public static void registerDispenseBehavior(FMLCommonSetupEvent event) {
-        DispenserBlock.registerBehavior(CERAMIC_SHEARS.get(), new ShearsDispenseItemBehavior());
+        DispenserBlock.registerBehavior(Constants.CERAMIC_SHEARS.get(), new ShearsDispenseItemBehavior());
     }
 
     /**
@@ -61,7 +64,7 @@ public class CeramicShearsMod {
             event.accept(CERAMIC_SHEARS_PART);
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            event.accept(CERAMIC_SHEARS);
+            event.accept(Constants.CERAMIC_SHEARS);
         }
     }
 
