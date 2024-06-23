@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Forge Recommended Versioning](https://mcforge.readthedocs.io/en/latest/conventions/versioning/).
 
+## [1.21-3.0.0.0] - 2024-06-23
+### Changed
+- Updated to Minecraft 1.21 (Fabric 0.100.3+1.21, Neoforge 21.0.29-beta, Forge 51.0.17)
+- Updated Cloth Config support (15.0.127) (Fabric/Quilt)
+- Updated ModMenu support (11.0.1) (Fabric/Quilt)
+
 ## [1.20.6-2.3.0.1] - 2024-06-08
 ### Fixed
 - ceramic shears could not be enchanted (all loaders)

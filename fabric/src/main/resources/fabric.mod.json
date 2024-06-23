@@ -34,7 +34,7 @@
     "fabric-api": ">=${fabric_version}",
     "cloth-config": ">=${cloth_config_version}"
   },
-  "recommends": {
+  "suggests": {
     "modmenu": ">=${mod_menu_version}"
   }
 }
