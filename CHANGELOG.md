@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Forge Recommended Versioning](https://mcforge.readthedocs.io/en/latest/conventions/versioning/).
 
+## [1.21-3.1.0.0] - 2024-07-01
+### Changed
+- updated Neoforge to 21.0.45-beta
+
+### Fixed
+- fixed known issue: wolf armor could not be sheared off (Neoforge, Forge)
+- fixed known issue: Bogged could not be sheared (Forge) (was already been fixed in the 1.21-3.0.0.0 update)
+
 ## [1.21-3.0.0.0] - 2024-06-23
 ### Changed
 - Updated to Minecraft 1.21 (Fabric 0.100.3+1.21, Neoforge 21.0.29-beta, Forge 51.0.17)
