@@ -6,6 +6,7 @@ import de.cech12.ceramicshears.mixin.accessor.HolderSetDirectAccessor;
 import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -39,7 +40,7 @@ public abstract class MatchToolMixin implements LootItemCondition {
             //add ceramic shears to all MatchTool predicates that contains vanilla shears
             for (ItemPredicate itemPredicate : ITEM_PREDICATES) {
                 itemPredicate.items().ifPresent(holders -> {
-                    if (holders.contains(shearsHolder) && !holders.contains(woodenShearsHolder)) {
+                    if (holders instanceof HolderSet.Direct && holders.contains(shearsHolder) && !holders.contains(woodenShearsHolder)) {
                         HolderSetDirectAccessor<Item> accessor = ((HolderSetDirectAccessor<Item>) holders);
                         ArrayList<Holder<Item>> newList = new ArrayList<>(accessor.getContents());
                         newList.add(woodenShearsHolder);
