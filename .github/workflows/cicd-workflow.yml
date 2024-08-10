@@ -51,6 +51,7 @@ jobs:
       curseforge-id: 363553
       game-versions: |
         1.21
+        1.21.1
       release-type: release
       loaders: |
         forge
@@ -69,6 +70,7 @@ jobs:
       modrinth-id: qaMUpFM4
       game-versions: |
         1.21
+        1.21.1
       release-type: release
       loaders: |
         forge
@@ -87,6 +89,7 @@ jobs:
       curseforge-id: 363553
       game-versions: |
         1.21
+        1.21.1
       release-type: release
       loaders: |
         neoforge
@@ -105,6 +108,7 @@ jobs:
       modrinth-id: qaMUpFM4
       game-versions: |
         1.21
+        1.21.1
       release-type: release
       loaders: |
         neoforge
@@ -123,6 +127,7 @@ jobs:
       curseforge-id: 363553
       game-versions: |
         1.21
+        1.21.1
       release-type: release
       loaders: |
         fabric
@@ -142,6 +147,7 @@ jobs:
       modrinth-id: qaMUpFM4
       game-versions: |
         1.21
+        1.21.1
       release-type: release
       loaders: |
         fabric
