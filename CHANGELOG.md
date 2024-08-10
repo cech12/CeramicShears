@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Forge Recommended Versioning](https://mcforge.readthedocs.io/en/latest/conventions/versioning/).
 
+## [1.21-3.2.0.2] - 2024-08-10
+### Fixed
+- fixed shears damaging in Forge
+
 ## [1.21-3.2.0.1] - 2024-07-15
 ### Fixed
 - error at world creation & world loading with a data pack that contains shears tag as match tool condition (thanks to ayrus02 for the report) #28
