@@ -14,8 +14,7 @@ import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 @Config(name = Constants.MOD_ID)
 public class FabricConfigHelper implements ConfigData, IConfigHelper {
 
-    @ConfigEntry.Gui.Tooltip(count = 4)
-    @ConfigEntry.BoundedDiscrete(min = DURABILITY_MIN, max = DURABILITY_MAX)
+    @ConfigEntry.Gui.Tooltip(count = 5)
     public int DURABILITY = DURABILITY_DEFAULT;
 
     @Override
@@ -25,7 +24,8 @@ public class FabricConfigHelper implements ConfigData, IConfigHelper {
 
     @Override
     public int getDurability() {
-        return AutoConfig.getConfigHolder(FabricConfigHelper.class).getConfig().DURABILITY;
+        int configuredDurability = AutoConfig.getConfigHolder(FabricConfigHelper.class).getConfig().DURABILITY;
+        return Math.clamp(configuredDurability, DURABILITY_MIN, DURABILITY_MAX);
     }
 
 }
