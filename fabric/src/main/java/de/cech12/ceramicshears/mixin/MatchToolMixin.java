@@ -35,15 +35,15 @@ public abstract class MatchToolMixin implements LootItemCondition {
 
     static {
         CommonLifecycleEvents.TAGS_LOADED.register((registries, client) -> {
-            Holder<Item> woodenShearsHolder = BuiltInRegistries.ITEM.wrapAsHolder(Constants.CERAMIC_SHEARS.get());
+            Holder<Item> ceramicShearsHolder = BuiltInRegistries.ITEM.wrapAsHolder(Constants.CERAMIC_SHEARS.get());
             Holder<Item> shearsHolder = BuiltInRegistries.ITEM.wrapAsHolder(Items.SHEARS);
             //add ceramic shears to all MatchTool predicates that contains vanilla shears
             for (ItemPredicate itemPredicate : ITEM_PREDICATES) {
                 itemPredicate.items().ifPresent(holders -> {
-                    if (holders instanceof HolderSet.Direct && holders.contains(shearsHolder) && !holders.contains(woodenShearsHolder)) {
+                    if (holders instanceof HolderSet.Direct && holders.contains(shearsHolder) && !holders.contains(ceramicShearsHolder)) {
                         HolderSetDirectAccessor<Item> accessor = ((HolderSetDirectAccessor<Item>) holders);
                         ArrayList<Holder<Item>> newList = new ArrayList<>(accessor.getContents());
-                        newList.add(woodenShearsHolder);
+                        newList.add(ceramicShearsHolder);
                         accessor.setContents(ImmutableList.copyOf(newList));
                         accessor.setContentsSet(null); //reset contents set
                     }

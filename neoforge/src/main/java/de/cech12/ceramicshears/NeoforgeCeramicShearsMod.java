@@ -26,12 +26,12 @@ public class NeoforgeCeramicShearsMod {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Constants.MOD_ID);
 
     /** clay shears part item registry object */
-    public static final DeferredItem<Item> CLAY_SHEARS_PART = ITEMS.register("clay_shears_part", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CLAY_SHEARS_PART = ITEMS.registerSimpleItem("clay_shears_part");
     /** ceramic shears part item registry object */
-    public static final DeferredItem<Item> CERAMIC_SHEARS_PART = ITEMS.register("ceramic_shears_part", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CERAMIC_SHEARS_PART = ITEMS.registerSimpleItem("ceramic_shears_part");
 
     static {
-        Constants.CERAMIC_SHEARS = ITEMS.register("ceramic_shears", NeoforgeCeramicShearsItem::new);
+        Constants.CERAMIC_SHEARS = ITEMS.registerItem("ceramic_shears", NeoforgeCeramicShearsItem::new);
     }
 
     /**

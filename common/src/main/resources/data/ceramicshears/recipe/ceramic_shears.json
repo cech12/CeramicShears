@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "tools",
   "ingredients": [
-    {
-      "item": "ceramicshears:ceramic_shears_part"
-    },
-    {
-      "item": "ceramicshears:ceramic_shears_part"
-    }
+    "ceramicshears:ceramic_shears_part",
+    "ceramicshears:ceramic_shears_part"
   ],
   "result": {
     "id": "ceramicshears:ceramic_shears"

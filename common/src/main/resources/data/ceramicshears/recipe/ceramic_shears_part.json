@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "misc",
-  "ingredient": {
-    "item": "ceramicshears:clay_shears_part"
-  },
+  "ingredient": "ceramicshears:clay_shears_part",
   "result": {
     "id": "ceramicshears:ceramic_shears_part"
   },

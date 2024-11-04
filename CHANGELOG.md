@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Forge Recommended Versioning](https://mcforge.readthedocs.io/en/latest/conventions/versioning/).
 
+## [1.21.3-3.3.0.0] - 2024-11-04
+### Changed
+- updated to Minecraft 1.21.3 (Fabric 0.107.0+1.21.3, NeoForge 21.3.10-beta, Forge 53.0.7)
+- updated Cloth Config support (16.0.141) (Fabric/Quilt)
+- updated ModMenu support (12.0.0-beta.1) (Fabric/Quilt)
+- use the new common tag "c:tools/shear" for shears (Forge)
+
 ## [1.21-3.2.1.0] - 2024-08-30
 ### Changed
 - durability config option is now a text field instead of a slider (Fabric)

@@ -6,9 +6,12 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.ShearsDispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
+
+import java.util.function.Function;
 
 /**
  * Mod class for the Fabric loader.
@@ -17,14 +20,19 @@ import net.minecraft.world.level.block.DispenserBlock;
 public class FabricCeramicShearsMod implements ModInitializer {
 
     /** clay shears part item registry object */
-    public static final Item CLAY_SHEARS_PART = Registry.register(BuiltInRegistries.ITEM, Constants.id("clay_shears_part"), new Item(new Item.Properties()));
+    public static final Item CLAY_SHEARS_PART = registerItem("clay_shears_part", Item::new);
     /** ceramic shears part item registry object */
-    public static final Item CERAMIC_SHEARS_PART = Registry.register(BuiltInRegistries.ITEM, Constants.id("ceramic_shears_part"), new Item(new Item.Properties()));
+    public static final Item CERAMIC_SHEARS_PART = registerItem("ceramic_shears_part", Item::new);
     /** ceramic shears item registry object */
-    public static final Item CERAMIC_SHEARS = Registry.register(BuiltInRegistries.ITEM, Constants.id("ceramic_shears"), new CeramicShearsItem());
+    public static final Item CERAMIC_SHEARS = registerItem("ceramic_shears", CeramicShearsItem::new);
 
     static {
         Constants.CERAMIC_SHEARS = () -> CERAMIC_SHEARS;
+    }
+
+    private static Item registerItem(String name, Function<Item.Properties, Item> itemConstructor) {
+        ResourceKey<Item> resourceKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), Constants.id(name));
+        return Registry.register(BuiltInRegistries.ITEM, resourceKey, itemConstructor.apply(new Item.Properties().setId(resourceKey)));
     }
 
     /**

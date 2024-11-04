@@ -11,8 +11,8 @@ public class CeramicShearsItem extends ShearsItem {
     /**
      * Constructs a CeramicShearsItem by configure it to stack to one item.
      */
-    public CeramicShearsItem() {
-        super((new Properties()).stacksTo(1).component(DataComponents.TOOL, ShearsItem.createToolProperties()));
+    public CeramicShearsItem(Properties properties) {
+        super(properties.stacksTo(1).component(DataComponents.TOOL, ShearsItem.createToolProperties()));
     }
 
 }

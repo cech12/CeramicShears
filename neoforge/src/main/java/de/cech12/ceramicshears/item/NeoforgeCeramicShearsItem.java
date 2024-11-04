@@ -5,6 +5,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class NeoforgeCeramicShearsItem extends CeramicShearsItem {
 
+    public NeoforgeCeramicShearsItem(Properties properties) {
+        super(properties);
+    }
+
     @Override
     public boolean isDamageable(@NotNull ItemStack stack) {
         return stack.isDamageableItem(); //references to mixed in method
