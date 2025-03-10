@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Forge Recommended Versioning](https://mcforge.readthedocs.io/en/latest/conventions/versioning/).
 
+## [1.21-3.2.1.1] - 2025-03-10
+### Fixed
+- Ceramic Shears recipe used a wrong category (thanks to Merucyr for the report) https://github.com/cech12/WoodenShears/issues/27
+
 ## [1.21-3.2.1.0] - 2024-08-30
 ### Changed
 - durability config option is now a text field instead of a slider (Fabric)
