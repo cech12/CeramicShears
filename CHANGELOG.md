@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Forge Recommended Versioning](https://mcforge.readthedocs.io/en/latest/conventions/versioning/).
 
+## [1.20.1-1.9.0.1] - 2025-03-10
+### Fixed
+- Ceramic Shears recipe used a wrong category (thanks to Merucyr for the report) https://github.com/cech12/WoodenShears/issues/27
+
 ## [1.20.1-1.9.0.0] - 2023-08-09
 ### Changed
 - Changed Forge to NeoForge 1.20.1-47.1.54 (compatible with Forge 47.1.0)
