@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Forge Recommended Versioning](https://mcforge.readthedocs.io/en/latest/conventions/versioning/).
 
+## [1.20.4-2.2.1.1] - 2025-03-10
+### Fixed
+- Ceramic Shears recipe used a wrong category (thanks to Merucyr for the report) https://github.com/cech12/WoodenShears/issues/27
+
 ## [1.20.4-2.2.1.0] - 2024-07-07
 ### Changed
 - updated Russian language support (thanks to Alexander317 for the contribution) #27
