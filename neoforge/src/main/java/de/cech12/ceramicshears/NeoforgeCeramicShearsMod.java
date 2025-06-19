@@ -19,7 +19,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  */
 @SuppressWarnings("unused")
 @Mod(Constants.MOD_ID)
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Constants.MOD_ID)
 public class NeoforgeCeramicShearsMod {
 
     /** mod specific item registry */

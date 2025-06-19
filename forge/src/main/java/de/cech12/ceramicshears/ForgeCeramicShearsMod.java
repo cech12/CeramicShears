@@ -8,7 +8,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -46,7 +46,7 @@ public class ForgeCeramicShearsMod {
      * Constructor of a mod instance.
      */
     public ForgeCeramicShearsMod(FMLJavaModLoadingContext context) {
-        ITEMS.register(context.getModEventBus());
+        ITEMS.register(context.getModBusGroup());
         CommonLoader.init();
     }
 
