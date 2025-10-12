@@ -23,7 +23,7 @@ import java.util.function.Function;
  */
 @SuppressWarnings("unused")
 @Mod(Constants.MOD_ID)
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid= Constants.MOD_ID)
 public class ForgeCeramicShearsMod {
 
     /** mod specific item registry */
