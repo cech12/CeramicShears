@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [1.21.9-3.6.0.1] - 2025-10-23
 ### Fixed
 - leash knot on fences could not be sheared (Fabric/Quilt) (for Forge & NeoForge a PR needs to be merged)
+- poppy of copper golem could not be sheared (Fabric/Quilt) (for Forge a PR needs to be merged)
 
 ## [1.21.9-3.6.0.0] - 2025-10-12
 - updated to Minecraft 1.21.9 (Fabric 0.134.0+1.21.9, NeoForge 21.9.15-beta, Forge 59.0.5)
