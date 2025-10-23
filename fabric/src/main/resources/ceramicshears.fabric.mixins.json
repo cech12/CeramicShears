@@ -6,6 +6,7 @@
   "mixins": [
     "BlockInteractShearsMixin",
     "EntityInteractShearsMixin",
+    "LeashFenceKnotEntityMixin",
     "MatchToolMixin",
     "MobInteractShearsMixin",
     "TripwireBlockMixin",
