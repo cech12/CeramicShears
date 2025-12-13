@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import de.cech12.ceramicshears.Constants;
 import de.cech12.ceramicshears.mixin.accessor.HolderSetDirectAccessor;
 import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
-import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
