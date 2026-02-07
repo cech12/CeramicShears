@@ -39,14 +39,6 @@ repositories {
         )
         filter { includeGroup('org.parchmentmc.data') }
     }
-    maven {
-        name = 'BlameJared Maven (JEI / CraftTweaker / Bookshelf)'
-        url = 'https://maven.blamejared.com'
-    }
-    //REI
-    maven { url = "https://maven.shedaniel.me/" }
-    maven { url = "https://maven.architectury.dev/" }
-    maven { url = "https://maven.terraformersmc.com/releases/" }
 }
 
 // Declare capabilities on the outgoing configurations.

@@ -9,6 +9,17 @@ jar {
     }
 }
 
+repositories {
+    maven minecraft.mavenizer
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+}
+
+dependencies {
+    implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
+    annotationProcessor 'net.minecraftforge:eventbus-validator:7.0-beta.10'
+}
+
 minecraft {
     mappings channel: 'parchment', version: "${parchment_version}-${parchment_minecraft}"
 
@@ -44,17 +55,6 @@ test {
 }
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
-
-repositories {
-    maven minecraft.mavenizer
-    maven fg.forgeMaven
-    maven fg.minecraftLibsMaven
-}
-
-dependencies {
-    implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
-    annotationProcessor 'net.minecraftforge:eventbus-validator:7.0-beta.10'
-}
 
 publishing {
     publications {
