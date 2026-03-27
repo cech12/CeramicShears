@@ -2,7 +2,7 @@ package de.cech12.ceramicshears;
 
 import de.cech12.ceramicshears.item.CeramicShearsItem;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.ShearsDispenseItemBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -42,11 +42,11 @@ public class FabricCeramicShearsMod implements ModInitializer {
     public void onInitialize() {
         CommonLoader.init();
         //Register item in the creative tab.
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(content -> {
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(content -> {
             content.accept(CLAY_SHEARS_PART);
             content.accept(CERAMIC_SHEARS_PART);
         });
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> {
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> {
             content.accept(CERAMIC_SHEARS);
         });
         //register dispense behavior
