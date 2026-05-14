@@ -1,6 +1,6 @@
 package de.cech12.ceramicshears;
 
-import de.cech12.ceramicshears.item.NeoforgeCeramicShearsItem;
+import de.cech12.ceramicshears.item.CeramicShearsItem;
 import net.minecraft.core.dispenser.ShearsDispenseItemBehavior;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
@@ -31,7 +31,7 @@ public class NeoforgeCeramicShearsMod {
     public static final DeferredItem<Item> CERAMIC_SHEARS_PART = ITEMS.registerSimpleItem("ceramic_shears_part");
 
     static {
-        Constants.CERAMIC_SHEARS = ITEMS.registerItem("ceramic_shears", NeoforgeCeramicShearsItem::new);
+        Constants.CERAMIC_SHEARS = ITEMS.registerItem("ceramic_shears", CeramicShearsItem::new);
     }
 
     /**
