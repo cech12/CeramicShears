@@ -33,10 +33,8 @@ public class ForgeCeramicShearsMod {
     public static final RegistryObject<Item> CLAY_SHEARS_PART = registerItem("clay_shears_part", Item::new);
     /** ceramic shears part item registry object */
     public static final RegistryObject<Item> CERAMIC_SHEARS_PART = registerItem("ceramic_shears_part", Item::new);
-
-    static {
-        Constants.CERAMIC_SHEARS = registerItem("ceramic_shears", CeramicShearsItem::new);
-    }
+    /** ceramic shears item registry object */
+    public static final RegistryObject<Item> CERAMIC_SHEARS = registerItem("ceramic_shears", CeramicShearsItem::new);
 
     private static RegistryObject<Item> registerItem(String name, Function<Item.Properties, Item> itemConstructor) {
         return ITEMS.register(name, () -> itemConstructor.apply(new Item.Properties().setId(ResourceKey.create(BuiltInRegistries.ITEM.key(), Constants.id(name)))));
@@ -56,7 +54,7 @@ public class ForgeCeramicShearsMod {
      */
     @SubscribeEvent
     public static void registerDispenseBehavior(FMLCommonSetupEvent event) {
-        DispenserBlock.registerBehavior(Constants.CERAMIC_SHEARS.get(), new ShearsDispenseItemBehavior());
+        DispenserBlock.registerBehavior(CERAMIC_SHEARS.get(), new ShearsDispenseItemBehavior());
     }
 
     /**
@@ -70,7 +68,7 @@ public class ForgeCeramicShearsMod {
             event.accept(CERAMIC_SHEARS_PART);
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            event.accept(Constants.CERAMIC_SHEARS);
+            event.accept(CERAMIC_SHEARS);
         }
     }
 

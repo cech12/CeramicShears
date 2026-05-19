@@ -29,10 +29,8 @@ public class NeoforgeCeramicShearsMod {
     public static final DeferredItem<Item> CLAY_SHEARS_PART = ITEMS.registerSimpleItem("clay_shears_part");
     /** ceramic shears part item registry object */
     public static final DeferredItem<Item> CERAMIC_SHEARS_PART = ITEMS.registerSimpleItem("ceramic_shears_part");
-
-    static {
-        Constants.CERAMIC_SHEARS = ITEMS.registerItem("ceramic_shears", CeramicShearsItem::new);
-    }
+    /** ceramic shears item registry object */
+    public static final DeferredItem<Item> CERAMIC_SHEARS = ITEMS.registerItem("ceramic_shears", CeramicShearsItem::new);
 
     /**
      * Constructor of a mod instance.
@@ -48,7 +46,7 @@ public class NeoforgeCeramicShearsMod {
      */
     @SubscribeEvent
     public static void registerDispenseBehavior(FMLCommonSetupEvent event) {
-        DispenserBlock.registerBehavior(Constants.CERAMIC_SHEARS.get(), new ShearsDispenseItemBehavior());
+        DispenserBlock.registerBehavior(CERAMIC_SHEARS.get(), new ShearsDispenseItemBehavior());
     }
 
     /**
@@ -62,7 +60,7 @@ public class NeoforgeCeramicShearsMod {
             event.accept(CERAMIC_SHEARS_PART);
         }
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            event.accept(Constants.CERAMIC_SHEARS.get());
+            event.accept(CERAMIC_SHEARS.get());
         }
     }
 

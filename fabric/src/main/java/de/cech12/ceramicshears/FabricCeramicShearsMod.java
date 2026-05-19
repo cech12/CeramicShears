@@ -26,10 +26,6 @@ public class FabricCeramicShearsMod implements ModInitializer {
     /** ceramic shears item registry object */
     public static final Item CERAMIC_SHEARS = registerItem("ceramic_shears", CeramicShearsItem::new);
 
-    static {
-        Constants.CERAMIC_SHEARS = () -> CERAMIC_SHEARS;
-    }
-
     private static Item registerItem(String name, Function<Item.Properties, Item> itemConstructor) {
         ResourceKey<Item> resourceKey = ResourceKey.create(BuiltInRegistries.ITEM.key(), Constants.id(name));
         return Registry.register(BuiltInRegistries.ITEM, resourceKey, itemConstructor.apply(new Item.Properties().setId(resourceKey)));
