@@ -2,7 +2,6 @@
   "required": true,
   "package": "de.cech12.ceramicshears.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "ceramicshears.refmap.json",
   "mixins": [
     "BlockInteractShearsMixin",
     "EntityInteractShearsMixin",
