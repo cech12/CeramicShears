@@ -6,6 +6,7 @@
   "text.autoconfig.ceramicshears.option.DURABILITY": "Прочность керамических ножниц",
   "text.autoconfig.ceramicshears.option.DURABILITY.@Tooltip[0]": "§6§lПрочность керамических ножниц",
   "text.autoconfig.ceramicshears.option.DURABILITY.@Tooltip[1]": "Определяет максимальную прочность керамических ножниц.",
-  "text.autoconfig.ceramicshears.option.DURABILITY.@Tooltip[2]": "§7§oПо умолчанию: 179",
-  "text.autoconfig.ceramicshears.option.DURABILITY.@Tooltip[3]": "§7§o0: отключает прочность у предмета",
+  "text.autoconfig.ceramicshears.option.DURABILITY.@Tooltip[2]": "§7§o0: отключает прочность у предмета",
+  "text.autoconfig.ceramicshears.option.DURABILITY.@Tooltip[3]": "§7§oMin: 0; Max: 10000",
+  "text.autoconfig.ceramicshears.option.DURABILITY.@Tooltip[4]": "§7§oПо умолчанию: 179"
 }

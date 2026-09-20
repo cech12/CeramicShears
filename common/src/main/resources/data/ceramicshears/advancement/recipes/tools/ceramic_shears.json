@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "ceramicshears:ceramic_shears"
+        "recipes": "ceramicshears:ceramic_shears"
       }
     }
   },
