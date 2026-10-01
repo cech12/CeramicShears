@@ -30,7 +30,7 @@ public class NeoforgeConfigHelper implements IConfigHelper {
 
     @Override
     public void init() {
-        ModLoadingContext.get().getActiveContainer().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG);
+        ModLoadingContext.get().getActiveContainer().registerConfig(ModConfig.Type.SYNCED, SERVER_CONFIG);
     }
 
     @Override
