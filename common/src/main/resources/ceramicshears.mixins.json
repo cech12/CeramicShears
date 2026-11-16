@@ -5,6 +5,8 @@
   "refmap": "ceramicshears.refmap.json",
   "mixins": [
     "DataComponentHolderMixin",
+    "GrindstoneMenuMixin",
+    "ItemStackMixin",
     "RepairItemRecipeMixin"
   ],
   "injectors": {

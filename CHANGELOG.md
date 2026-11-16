@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [this versioning scheme](https://gist.github.com/cech12/69319028e88c50349a6b044000a6607b).
 
+## [1.21.11-3.7.1.1] - 2026-11-16
+### Changed
+- updated to Forge 61.1.4 (fixes carving pumpkins with shears on Forge)
+
+### Fixed
+- ceramic shears combined in a grindstone stored a fixed max durability, so later changes of the durability config did not apply to them (found by the new game tests) https://github.com/cech12/WoodenShears/issues/51
+- the recipe advancement of the clay shears part checked the recipe of the ceramic shears part (found by the new game tests)
+- the Fabric version reported NeoForge as its platform (found by the new game tests) (Fabric/Quilt)
+- the Russian translation could not be loaded (invalid json) and its config tooltips were incomplete (found by the new game tests)
+- ceramic shears repaired to full durability in an anvil or with mending kept a stored damage of 0, so they differed from new shears (found by the new game tests)
+
 ## [1.21.11-3.7.1.0] - 2026-05-14
 ### Added
 - the possibility to fuse two damaged ceramic shears via crafting for repairing (all loaders) (thanks to bixqa for the idea) https://github.com/cech12/WoodenShears/issues/38
