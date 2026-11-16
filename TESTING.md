@@ -140,6 +140,7 @@ config (`Services.CONFIG.getDurability()`).
 
 | Feature | Test(s) |
 |---|---|
+| New shears have the damage component 0 and the configured max damage like vanilla shears, also for direct component access (e.g. the `minecraft:damage` item predicate) | `durability/default_value` |
 | Default 179, read from the config definition of the loader (config spec on Forge/NeoForge, config class on Fabric), not only from the test environment | `durability/default_value` |
 | Custom value (200) | `durability/custom_value` |
 | Maximum value 10000 | `durability/maximum_value` |
@@ -249,7 +250,7 @@ expected result on each loader, so a change of this behavior is noticed.
 | The config screen tooltip (Fabric) shows the real default (179) and range (0 - 10000) in every language that translates it | `resources/config_tooltip_shows_default_and_range` |
 | Every test function has a test instance that runs exactly this function | `meta/every_test_function_has_an_instance` |
 | The platform name of the mod names the running loader (fixed: the Fabric version reported "NeoForge") | `meta/platform_name_matches_the_loader` |
-| The release jar starts on a dedicated server, with and without integrations (Cloth Config and ModMenu on Fabric) | server start test |
+| The release jar starts on a dedicated server, with and without integrations (ModMenu on Fabric; Cloth Config is always installed as a required dependency) | server start test |
 
 ### Known issues (marked with `KnownIssues`)
 
@@ -274,5 +275,5 @@ These features cannot be checked on a dedicated test server. Check them manually
 | Item textures and models (shears and both parts) in the inventory and in the hand | Client rendering | Start `runClient`, look at the item in the inventory, hotbar and in first/third person |
 | Item name and tooltip in the game | Client language loading (the files are tested) | Switch the language once, check the item name |
 | Config screen via ModMenu (Fabric) | Client GUI | Fabric client: Mods > Ceramic Shears > config, change durability, reopen |
-| Config file creation and editing (`config/ceramicshears.toml` on Fabric, `config/ceramicshears-synced.toml` on NeoForge, server config `serverconfig/ceramicshears-server.toml` on Forge) | The tests change the config at runtime, not via the file | Start a server, change `durability` in the file, restart, check the max damage of new shears |
+| Config file creation and editing (`config/ceramicshears.toml` on Fabric, server config `serverconfig/ceramicshears-server.toml` on Forge and NeoForge) | The tests change the config at runtime, not via the file | Start a server, change `durability` in the file, restart, check the max damage of new shears |
 | Creative tabs in the client | Client GUI (the tab contents are tested) | Open the "Tools & Utilities" and the "Ingredients" tab |

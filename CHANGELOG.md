@@ -8,11 +8,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - updated to Forge 65.1.0 (Forge 65.0.1 and newer fix shearing mooshrooms and sulfur cubes with ceramic shears)
 
 ### Fixed
-- ceramic shears combined in a grindstone stored a fixed max durability, so later changes of the durability config did not apply to them; already affected shears follow the config again (found by the new game tests) https://github.com/cech12/WoodenShears/issues/51
+- ceramic shears combined in a grindstone stored a fixed max durability, so later changes of the durability config did not apply to them; already affected shears follow the config again (found by the new game tests) (all loaders) https://github.com/cech12/WoodenShears/issues/51
 - the recipe advancement of the clay shears part checked the recipe of the ceramic shears part (found by the new game tests)
 - the Fabric version reported NeoForge as its platform (found by the new game tests) (Fabric/Quilt)
 - the Russian translation could not be loaded (invalid json) and its config tooltips were incomplete (found by the new game tests)
-- ceramic shears repaired to full durability in an anvil or with mending kept a stored damage of 0, so they differed from new shears (found by the new game tests)
+- ceramic shears repaired to full durability in an anvil or with mending kept a stored damage of 0, so they differed from new shears (found by the new game tests) (all loaders)
 
 ## [26.2-4.1.0.0] - 2026-06-18
 ### Changed
