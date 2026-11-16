@@ -123,8 +123,9 @@ loader differences check the expected behavior of each loader (see "Data packs")
 | Listed in the creative tab "Tools & Utilities" | `item/is_in_tools_and_utilities_tab` |
 | Part of the common tag `c:tools/shear` ([WoodenShears#17](https://github.com/cech12/WoodenShears/issues/17)) | `item/is_in_common_shears_tag` |
 | Enchantable like vanilla shears with every enchantment (Efficiency, Unbreaking, Mending, Curse of Vanishing), only with an anvil, not at the enchanting table (regression 1.20.6-2.3.0.1) | `item/is_enchantable_like_vanilla_shears` |
+| Mending repairs ceramic shears exactly like vanilla shears, shears mended to full durability store no leftover damage | `item/mending_repairs_like_vanilla_shears` |
 | Same mining speed and correct-tool behavior as vanilla shears for every block (cobweb, leaves, wool, ...) | `item/mines_like_vanilla_shears` |
-| Same durability loss as vanilla shears when breaking any block: 1 for blocks with hardness, nothing for blocks without hardness like fire ([WoodenShears#40](https://github.com/cech12/WoodenShears/issues/40)) | `item/loses_durability_per_block_like_vanilla_shears` |
+| Same durability loss as vanilla shears when breaking any block: 1 for every block except fire, also for blocks without hardness like grass ([WoodenShears#40](https://github.com/cech12/WoodenShears/issues/40) asked for no loss there and was closed in favor of the vanilla behavior) | `item/loses_durability_per_block_like_vanilla_shears` |
 | No furnace fuel, like vanilla shears | `item/is_no_fuel_like_vanilla_shears` |
 | The parts `ceramicshears:clay_shears_part` and `ceramicshears:ceramic_shears_part` exist as simple items that stack to 64 | `item/shears_parts_are_registered` |
 | Both parts are listed in the creative tab "Ingredients" | `item/shears_parts_are_in_ingredients_tab` |
@@ -171,6 +172,9 @@ config file. On Forge, setting the value also saves the server config file in `f
 | Two damaged shears can be combined in a grindstone (remaining durability + 5%, enchantments removed) | `repair/grindstone_combines_two_damaged_shears` |
 | Shears combined in a grindstone do not store a fixed max damage, so config changes still apply (fixed [WoodenShears#51](https://github.com/cech12/WoodenShears/issues/51)) | `repair/grindstone_result_follows_config` |
 | Two damaged shears can be combined in an anvil (remaining durability + 12%, enchantments of both kept) | `repair/anvil_combines_two_damaged_shears` |
+| Shears combined to full durability in an anvil store the same components as vanilla shears (only the repair cost; fixed: a damage of 0 was stored) | `repair/anvil_fully_repaired_shears_like_vanilla_shears` |
+| A single enchanted shears is disenchanted in a grindstone, the damage is kept and no max damage is stored | `repair/grindstone_disenchants_single_shears` |
+| Like vanilla shears there is no repair material: an anvil does not repair them with any item | `repair/no_repair_material_like_vanilla_shears` |
 | Unbreakable shears (durability 0) cannot be combined | `repair/not_possible_when_unbreakable` |
 
 ### Shearing entities (right-click)
@@ -179,7 +183,7 @@ config file. On Forge, setting the value also saves the server config file in `f
 |---|---|
 | Sheep: drops wool, sheared, shears lose one durability | `entity/shears_sheep` |
 | Creative mode (sheep, mooshroom, snow golem) works and does not damage the shears | `entity/shears_in_creative_without_damage` |
-| Mooshroom turns into a cow and drops mushrooms | `entity/shears_mooshroom` |
+| Mooshroom turns into a cow and drops red mushrooms, a brown mooshroom (own loot table) drops brown mushrooms | `entity/shears_mooshroom`, `entity/shears_brown_mooshroom` |
 | Snow golem loses its pumpkin | `entity/shears_snow_golem` |
 | Bogged can be sheared and drops two mushrooms (fixed known issue 1.21-3.1.0.0) | `entity/shears_bogged` |
 | Copper golem loses its flower (1.21.9-3.6.0.1) | `entity/shears_copper_golem` |
@@ -210,6 +214,8 @@ config file. On Forge, setting the value also saves the server config file in `f
 | Dispensers shear sheep, mooshrooms, snow golems, bogged, copper golems and sulfur cubes | `dispenser/shears_sheep`, `dispenser/shears_mooshroom`, `dispenser/shears_snow_golem`, `dispenser/shears_bogged`, `dispenser/shears_copper_golem`, `dispenser/shears_sulfur_cube` |
 | Dispensers harvest full beehives (fixed crash #9) | `dispenser/harvests_full_beehive` |
 | Dispensers cut leashes | `dispenser/cuts_leash` |
+| Dispensers shear brown mooshrooms (brown mushrooms) | `dispenser/shears_brown_mooshroom` |
+| Dispensers do not shear mobs that are not ready (sheared sheep) and keep the shears without a target: no drop, no durability loss, the shears stay in the dispenser | `dispenser/does_not_shear_when_not_ready`, `dispenser/keeps_shears_without_target` |
 
 ### Data packs
 
@@ -249,7 +255,8 @@ Currently none.
 
 The feature list was checked against the [Minecraft Wiki page about shears](https://minecraft.wiki/w/Shears) (all
 uses and the complete version history up to 26.3). Vanilla behavior that does not depend on the kind of shears is not
-tested separately: pumpkin face direction, bees getting angry, sounds, loot of chests and villager trades of vanilla
+tested separately: pumpkin face direction, bees getting angry, sounds, the "used" statistic (carving a pumpkin counts
+for vanilla shears on all loaders, `PumpkinBlock` names `Items.SHEARS` directly; accepted), loot of chests and villager trades of vanilla
 shears.
 
 ## Not tested automatically
@@ -261,5 +268,5 @@ These features cannot be checked on a dedicated test server. Check them manually
 | Item textures and models (shears and both parts) in the inventory and in the hand | Client rendering | Start `runClient`, look at the item in the inventory, hotbar and in first/third person |
 | Item name and tooltip in the game | Client language loading (the files are tested) | Switch the language once, check the item name |
 | Config screen via ModMenu (Fabric) | Client GUI | Fabric client: Mods > Ceramic Shears > config, change durability, reopen |
-| Config file creation and editing (`config/ceramicshears.toml` on Fabric, server config `ceramicshears-server.toml` on Forge/NeoForge) | The tests change the config at runtime, not via the file | Start a server, change `durability` in the file, restart, check the max damage of new shears |
+| Config file creation and editing (`config/ceramicshears.toml` on Fabric, `config/ceramicshears-synced.toml` on NeoForge, server config `serverconfig/ceramicshears-server.toml` on Forge) | The tests change the config at runtime, not via the file | Start a server, change `durability` in the file, restart, check the max damage of new shears |
 | Creative tabs in the client | Client GUI (the tab contents are tested) | Open the "Tools & Utilities" and the "Ingredients" tab |

@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -45,6 +46,7 @@ public final class ItemTests {
         tests.add("item/is_enchantable_like_vanilla_shears", ItemTests::isEnchantableLikeVanillaShears);
         tests.add("item/mines_like_vanilla_shears", ItemTests::minesLikeVanillaShears);
         tests.add("item/loses_durability_per_block_like_vanilla_shears", ItemTests::losesDurabilityPerBlockLikeVanillaShears);
+        tests.add("item/mending_repairs_like_vanilla_shears", ItemTests::mendingRepairsLikeVanillaShears);
         tests.add("item/is_no_fuel_like_vanilla_shears", ItemTests::isNoFuelLikeVanillaShears);
         tests.add("item/shears_parts_are_registered", ItemTests::shearsPartsAreRegistered);
         tests.add("item/shears_parts_are_in_ingredients_tab", ItemTests::shearsPartsAreInIngredientsTab);
@@ -128,8 +130,9 @@ public final class ItemTests {
     }
 
     /**
-     * WoodenShears#40: breaking a block costs the same durability as with vanilla shears for every block (1 for blocks with
-     * hardness, nothing for instantly broken blocks like fire).
+     * Breaking a block costs the same durability as with vanilla shears for every block: 1 for every block except fire,
+     * also for blocks without hardness like grass (WoodenShears#40 asked for no loss on such blocks and was closed in
+     * favor of the vanilla behavior).
      */
     public static void losesDurabilityPerBlockLikeVanillaShears(GameTestHelper helper) {
         ServerPlayer player = TestUtils.player(helper, GameType.SURVIVAL, ItemStack.EMPTY);
@@ -151,6 +154,32 @@ public final class ItemTests {
         }
         helper.assertTrue(damaging > 0, "test setup broken: vanilla shears lose no durability on any block");
         helper.assertTrue(differences.isEmpty(), "durability loss when breaking blocks differs from vanilla shears: " + differences);
+        helper.succeed();
+    }
+
+    /**
+     * Mending repairs damaged ceramic shears with experience exactly like vanilla shears (the max damage comes from the
+     * config, not from the item). Shears repaired to full durability store the same components as vanilla shears.
+     */
+    public static void mendingRepairsLikeVanillaShears(GameTestHelper helper) {
+        var mending = helper.getLevel().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.MENDING);
+        List<ItemStack> repaired = new ArrayList<>();
+        for (int damage : new int[] {50, 2}) {
+            for (ItemStack prototype : List.of(TestUtils.ceramicShears(), new ItemStack(Items.SHEARS))) {
+                ItemStack stack = prototype.copy();
+                stack.setDamageValue(damage);
+                stack.enchant(mending, 1);
+                ServerPlayer player = TestUtils.player(helper, GameType.SURVIVAL, stack);
+                new ExperienceOrb(helper.getLevel(), player.getX(), player.getY(), player.getZ(), 10).playerTouch(player);
+                repaired.add(player.getMainHandItem());
+            }
+        }
+        helper.assertTrue(repaired.get(0).getDamageValue() < 50, "mending did not repair ceramic shears");
+        helper.assertValueEqual(repaired.get(0).getDamageValue(), repaired.get(1).getDamageValue(), "damage of ceramic shears after mending compared to vanilla shears");
+        TestUtils.assertDamage(helper, repaired.get(2), 0, "after mending to full durability");
+        helper.assertValueEqual(TestUtils.storedComponentTypes(repaired.get(2)),
+                TestUtils.storedComponentTypes(repaired.get(3)),
+                "stored components of ceramic shears mended to full durability compared to vanilla shears");
         helper.succeed();
     }
 

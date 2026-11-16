@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - ceramic shears combined in a grindstone stored a fixed max durability, so later changes of the durability config did not apply to them (found by the new game tests) https://github.com/cech12/WoodenShears/issues/51
 - the recipe advancement of the clay shears part checked the recipe of the ceramic shears part (found by the new game tests)
 - the Fabric version reported NeoForge as its platform (found by the new game tests) (Fabric/Quilt)
+- ceramic shears repaired to full durability in an anvil or with mending kept a stored damage of 0, so they differed from new shears (found by the new game tests)
 
 ## [26.3-4.2.1.0] - 2026-10-01
 ### Changed

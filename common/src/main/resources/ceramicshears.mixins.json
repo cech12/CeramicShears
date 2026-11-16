@@ -5,6 +5,7 @@
   "mixins": [
     "DataComponentHolderMixin",
     "GrindstoneMenuMixin",
+    "ItemStackMixin",
     "RepairItemRecipeMixin"
   ],
   "injectors": {

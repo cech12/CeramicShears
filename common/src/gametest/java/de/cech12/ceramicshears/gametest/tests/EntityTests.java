@@ -47,6 +47,7 @@ public final class EntityTests {
         tests.add("entity/shears_sheep", EntityTests::shearsSheep);
         tests.add("entity/shears_in_creative_without_damage", EntityTests::shearsInCreativeWithoutDamage);
         tests.add("entity/shears_mooshroom", EntityTests::shearsMooshroom);
+        tests.add("entity/shears_brown_mooshroom", EntityTests::shearsBrownMooshroom);
         tests.add("entity/shears_snow_golem", EntityTests::shearsSnowGolem);
         tests.add("entity/shears_bogged", EntityTests::shearsBogged);
         tests.add("entity/shears_copper_golem", EntityTests::shearsCopperGolem);
@@ -104,6 +105,21 @@ public final class EntityTests {
             helper.assertEntityPresent(EntityTypes.COW);
             helper.assertItemEntityPresent(Items.RED_MUSHROOM);
             TestUtils.assertDamage(helper, player.getMainHandItem(), 1, "after shearing a mooshroom");
+        });
+    }
+
+    /** Shearing a brown mooshroom (own loot table) turns it into a cow and drops brown mushrooms. */
+    public static void shearsBrownMooshroom(GameTestHelper helper) {
+        MushroomCow mooshroom = helper.spawn(EntityTypes.MOOSHROOM, TestUtils.CENTER);
+        TestUtils.setMooshroomVariant(mooshroom, MushroomCow.Variant.BROWN);
+        helper.assertValueEqual(mooshroom.getVariant(), MushroomCow.Variant.BROWN, "test setup broken: mooshroom variant");
+        ServerPlayer player = survivalPlayer(helper);
+        assertConsumed(helper, TestUtils.interact(player, mooshroom), "brown mooshroom");
+        helper.succeedWhen(() -> {
+            helper.assertEntityPresent(EntityTypes.COW);
+            helper.assertItemEntityPresent(Items.BROWN_MUSHROOM);
+            helper.assertItemEntityNotPresent(Items.RED_MUSHROOM);
+            TestUtils.assertDamage(helper, player.getMainHandItem(), 1, "after shearing a brown mooshroom");
         });
     }
 

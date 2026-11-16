@@ -70,6 +70,9 @@ public final class RecipeTests {
         tests.add("repair/grindstone_result_follows_config", RecipeTests::grindstoneResultFollowsConfig);
         tests.add("repair/anvil_combines_two_damaged_shears", RecipeTests::anvilCombinesTwoDamagedShears);
         tests.add("repair/fully_repaired_shears_equal_new_shears", RecipeTests::fullyRepairedShearsEqualNewShears);
+        tests.add("repair/anvil_fully_repaired_shears_like_vanilla_shears", RecipeTests::anvilFullyRepairedShearsLikeVanillaShears);
+        tests.add("repair/grindstone_disenchants_single_shears", RecipeTests::grindstoneDisenchantsSingleShears);
+        tests.add("repair/no_repair_material_like_vanilla_shears", RecipeTests::noRepairMaterialLikeVanillaShears);
         tests.add("repair/not_possible_when_unbreakable", RecipeTests::notPossibleWhenUnbreakable);
     }
 
@@ -232,6 +235,11 @@ public final class RecipeTests {
             helper.assertTrue(ownRecipe.isPresent(), "recipe " + recipe.identifier() + " is missing");
             helper.assertTrue(hasTheRecipe.triggerInstance() instanceof RecipeUnlockedTrigger.TriggerInstance unlocked && unlocked.matches(ownRecipe.get()),
                     "has_the_recipe of " + name + " does not check for its own recipe " + recipe.identifier() + ": " + hasTheRecipe.triggerInstance());
+            // either criterion alone completes the advancement (OR), so having clay balls is enough
+            var requirements = advancement.value().requirements();
+            helper.assertTrue(requirements.test("has_clay"::equals), name + " is not completed by has_clay alone: " + requirements);
+            helper.assertTrue(requirements.test("has_the_recipe"::equals), name + " is not completed by has_the_recipe alone: " + requirements);
+            helper.assertTrue(!requirements.test(criterion -> false), name + " is completed without any criterion: " + requirements);
         }
         helper.succeed();
     }
@@ -344,6 +352,67 @@ public final class RecipeTests {
         helper.assertTrue(result.is(TestUtils.ceramicShearsItem()), "two damaged ceramic shears cannot be combined: " + result);
         helper.assertTrue(ItemStack.isSameItemSameComponents(result, TestUtils.ceramicShears()),
                 "fully repaired ceramic shears differ from new ones: " + result.getComponentsPatch());
+        helper.succeed();
+    }
+
+    private static AnvilMenu anvil(GameTestHelper helper) {
+        ServerPlayer player = TestUtils.player(helper, GameType.SURVIVAL, ItemStack.EMPTY);
+        return new AnvilMenu(0, player.getInventory(), ContainerLevelAccess.create(helper.getLevel(), helper.absolutePos(TestUtils.CENTER)));
+    }
+
+    /**
+     * Shears combined to full durability in an anvil have the same stored components as vanilla shears combined the
+     * same way (the repair cost, but no leftover damage or max damage).
+     */
+    public static void anvilFullyRepairedShearsLikeVanillaShears(GameTestHelper helper) {
+        List<ItemStack> results = new java.util.ArrayList<>();
+        for (ItemStack prototype : List.of(TestUtils.ceramicShears(), new ItemStack(Items.SHEARS))) {
+            ItemStack first = prototype.copy();
+            first.setDamageValue(1);
+            ItemStack second = prototype.copy();
+            second.setDamageValue(1);
+            ItemStack result = combine(anvil(helper), first, second);
+            helper.assertTrue(result.is(prototype.getItem()) && result.getDamageValue() == 0, "two slightly damaged " + prototype + " are not fully repaired in an anvil: " + result);
+            results.add(result);
+        }
+        var mod = TestUtils.storedComponentTypes(results.get(0));
+        var vanilla = TestUtils.storedComponentTypes(results.get(1));
+        helper.assertValueEqual(mod, vanilla, "stored components of fully repaired ceramic shears compared to vanilla shears");
+        helper.succeed();
+    }
+
+    /**
+     * Like vanilla shears, a single enchanted and damaged pair of shears is disenchanted in a grindstone: the damage is
+     * kept, no fixed max damage is stored.
+     */
+    public static void grindstoneDisenchantsSingleShears(GameTestHelper helper) {
+        ItemStack shears = TestUtils.ceramicShears();
+        shears.setDamageValue(10);
+        shears.enchant(enchantment(helper, Enchantments.EFFICIENCY), 1);
+        ServerPlayer player = TestUtils.player(helper, GameType.SURVIVAL, ItemStack.EMPTY);
+        GrindstoneMenu menu = new GrindstoneMenu(0, player.getInventory(), ContainerLevelAccess.create(helper.getLevel(), helper.absolutePos(TestUtils.CENTER)));
+        ItemStack result = combine(menu, shears, ItemStack.EMPTY);
+        helper.assertTrue(result.is(TestUtils.ceramicShearsItem()), "a single ceramic shears cannot be disenchanted in a grindstone: " + result);
+        helper.assertTrue(result.getEnchantments().isEmpty(), "grindstone did not remove the enchantments: " + result.getEnchantments());
+        TestUtils.assertDamage(helper, result, 10, "after disenchanting in a grindstone");
+        helper.assertTrue(result.getComponentsPatch().forget(type -> type != DataComponents.MAX_DAMAGE).isEmpty(),
+                "disenchanted ceramic shears store a fixed max damage: " + result.getComponentsPatch());
+        helper.succeed();
+    }
+
+    /**
+     * Like vanilla shears, ceramic shears have no repair material: an anvil does not repair them with any item (only by
+     * combining two shears).
+     */
+    public static void noRepairMaterialLikeVanillaShears(GameTestHelper helper) {
+        helper.assertTrue(java.util.Objects.equals(TestUtils.ceramicShears().get(DataComponents.REPAIRABLE), new ItemStack(Items.SHEARS).get(DataComponents.REPAIRABLE)),
+                "repair material differs from vanilla shears: " + TestUtils.ceramicShears().get(DataComponents.REPAIRABLE));
+        for (var material : List.of(Items.CLAY_BALL, TestUtils.ceramicShearsPartItem(), Items.BRICK, Items.IRON_INGOT)) {
+            ItemStack shears = TestUtils.ceramicShears();
+            shears.setDamageValue(20);
+            ItemStack result = combine(anvil(helper), shears, new ItemStack(material, 4));
+            helper.assertTrue(result.isEmpty(), "ceramic shears are repaired with " + material + " in an anvil: " + result);
+        }
         helper.succeed();
     }
 
