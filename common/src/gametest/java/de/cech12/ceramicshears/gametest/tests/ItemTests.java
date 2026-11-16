@@ -46,6 +46,7 @@ public final class ItemTests {
         tests.add("item/is_in_common_shears_tag", ItemTests::isInCommonShearsTag);
         tests.add("item/is_enchantable_like_vanilla_shears", ItemTests::isEnchantableLikeVanillaShears);
         tests.add("item/mines_like_vanilla_shears", ItemTests::minesLikeVanillaShears);
+        tests.add("item/has_the_components_of_vanilla_shears", ItemTests::hasTheComponentsOfVanillaShears);
         tests.add("item/loses_durability_per_block_like_vanilla_shears", ItemTests::losesDurabilityPerBlockLikeVanillaShears);
         tests.add("item/mending_repairs_like_vanilla_shears", ItemTests::mendingRepairsLikeVanillaShears);
         tests.add("item/is_no_fuel_like_vanilla_shears", ItemTests::isNoFuelLikeVanillaShears);
@@ -109,6 +110,31 @@ public final class ItemTests {
         // like vanilla shears only enchantable with an anvil, not at the enchanting table
         helper.assertTrue(Objects.equals(ceramic.get(DataComponents.ENCHANTABLE), vanilla.get(DataComponents.ENCHANTABLE)),
                 "enchanting table enchantability differs from vanilla shears: " + ceramic.get(DataComponents.ENCHANTABLE));
+        helper.succeed();
+    }
+
+    /** Components that are allowed to differ from vanilla shears: name, model and the durability (config). */
+    private static final java.util.Set<net.minecraft.core.component.DataComponentType<?>> OWN_COMPONENTS = java.util.Set.of(
+            DataComponents.ITEM_NAME, DataComponents.ITEM_MODEL, DataComponents.MAX_DAMAGE, DataComponents.DAMAGE);
+
+    /**
+     * Ceramic shears have all default components of vanilla shears with the same values (tool rules incl. breaking
+     * blocks in creative, stack size, enchantability, repair cost, rarity, ...), except name, model and durability. A
+     * new property of vanilla shears in a future Minecraft version is noticed here.
+     */
+    public static void hasTheComponentsOfVanillaShears(GameTestHelper helper) {
+        var mod = TestUtils.ceramicShearsItem().components();
+        var vanilla = Items.SHEARS.components();
+        java.util.Set<net.minecraft.core.component.DataComponentType<?>> types = new java.util.HashSet<>(mod.keySet());
+        types.addAll(vanilla.keySet());
+        types.removeAll(OWN_COMPONENTS);
+        List<String> differences = new ArrayList<>();
+        for (var type : types) {
+            if (!Objects.equals(mod.get(type), vanilla.get(type))) {
+                differences.add(type + ": " + mod.get(type) + " instead of " + vanilla.get(type));
+            }
+        }
+        helper.assertTrue(differences.isEmpty(), "components differ from vanilla shears: " + differences);
         helper.succeed();
     }
 

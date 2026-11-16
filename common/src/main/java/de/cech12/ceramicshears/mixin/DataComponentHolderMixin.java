@@ -31,10 +31,11 @@ public interface DataComponentHolderMixin {
 
     @Inject(at = @At("RETURN"), method = "get", cancellable = true)
     default <T> void getProxy(DataComponentType<? extends T> type, CallbackInfoReturnable<T> cir) {
-        if (cir.getReturnValue() == null && this.ceramicshears$getItem() instanceof CeramicShearsItem && Services.CONFIG.getDurability() > 0) {
+        if (this.ceramicshears$getItem() instanceof CeramicShearsItem && Services.CONFIG.getDurability() > 0) {
             if (type == DataComponents.MAX_DAMAGE) {
+                //the config wins, also over a max damage stored by older versions (grindstone, WoodenShears#51)
                 cir.setReturnValue((T) Integer.valueOf(Services.CONFIG.getDurability()));
-            } else if (type == DataComponents.DAMAGE) {
+            } else if (type == DataComponents.DAMAGE && cir.getReturnValue() == null) {
                 cir.setReturnValue((T) Integer.valueOf(0)); //avoid returning null if "has" method returns true
             }
         }
@@ -45,7 +46,7 @@ public interface DataComponentHolderMixin {
         if ((type == DataComponents.MAX_DAMAGE || type == DataComponents.DAMAGE) && this.ceramicshears$getItem() instanceof CeramicShearsItem && Services.CONFIG.getDurability() > 0) {
             T value = getComponents().get(type);
             if (type == DataComponents.MAX_DAMAGE) {
-                cir.setReturnValue(value != null ? value : (T) Integer.valueOf(Services.CONFIG.getDurability()));
+                cir.setReturnValue((T) Integer.valueOf(Services.CONFIG.getDurability()));
             } else { //type == DataComponents.DAMAGE
                 cir.setReturnValue(value != null ? value : defaultValue);
             }

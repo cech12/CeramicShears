@@ -48,6 +48,7 @@ public final class DispenserTests {
         tests.add("dispenser/cuts_leash", DispenserTests::cutsLeash);
         tests.add("dispenser/does_not_shear_when_not_ready", DispenserTests::doesNotShearWhenNotReady);
         tests.add("dispenser/keeps_shears_without_target", DispenserTests::keepsShearsWithoutTarget);
+        tests.add("dispenser/does_not_harvest_beehive_without_honey", DispenserTests::doesNotHarvestBeehiveWithoutHoney);
     }
 
     /** Places a dispenser with ceramic shears that faces the target position and powers it. */
@@ -179,6 +180,13 @@ public final class DispenserTests {
      */
     public static void keepsShearsWithoutTarget(GameTestHelper helper) {
         assertShearsKeptUnused(helper, dispense(helper), "without target");
+    }
+
+    /** Like with vanilla shears, a dispenser does not harvest a beehive that is not full (honey level 4). */
+    public static void doesNotHarvestBeehiveWithoutHoney(GameTestHelper helper) {
+        helper.setBlock(TARGET, Blocks.BEEHIVE.defaultBlockState().setValue(BeehiveBlock.HONEY_LEVEL, BeehiveBlock.MAX_HONEY_LEVELS - 1));
+        assertShearsKeptUnused(helper, dispense(helper), "in front of a beehive with honey level 4");
+        helper.assertBlockProperty(TARGET, BeehiveBlock.HONEY_LEVEL, BeehiveBlock.MAX_HONEY_LEVELS - 1);
     }
 
 }
