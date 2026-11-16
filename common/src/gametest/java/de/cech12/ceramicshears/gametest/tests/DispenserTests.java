@@ -162,12 +162,15 @@ public final class DispenserTests {
     }
 
     /** Asserts for some ticks that the dispenser keeps its undamaged ceramic shears and that nothing was dropped. */
-    private static void assertShearsKeptUnused(GameTestHelper helper, DispenserBlockEntity dispenser, String context) {
+    private static void assertShearsKeptUnused(GameTestHelper helper, DispenserBlockEntity dispenser, String context, Runnable... checks) {
         helper.startSequence()
                 .thenExecuteFor(20, () -> {
                     helper.assertTrue(helper.getLevel().getEntitiesOfClass(ItemEntity.class, helper.getBounds()).isEmpty(), "the dispenser dropped an item " + context);
                     helper.assertTrue(dispenser.getItem(0).is(TestUtils.ceramicShearsItem()), "the ceramic shears left the dispenser " + context);
                     TestUtils.assertDamage(helper, dispenser.getItem(0), 0, "in dispenser " + context);
+                    for (Runnable check : checks) {
+                        check.run();
+                    }
                 })
                 .thenSucceed();
     }
@@ -193,8 +196,8 @@ public final class DispenserTests {
     /** Like with vanilla shears, a dispenser does not harvest a beehive that is not full (honey level 4). */
     public static void doesNotHarvestBeehiveWithoutHoney(GameTestHelper helper) {
         helper.setBlock(TARGET, Blocks.BEEHIVE.defaultBlockState().setValue(BeehiveBlock.HONEY_LEVEL, BeehiveBlock.MAX_HONEY_LEVELS - 1));
-        assertShearsKeptUnused(helper, dispense(helper), "in front of a beehive with honey level 4");
-        helper.assertBlockProperty(TARGET, BeehiveBlock.HONEY_LEVEL, BeehiveBlock.MAX_HONEY_LEVELS - 1);
+        assertShearsKeptUnused(helper, dispense(helper), "in front of a beehive with honey level 4",
+                () -> helper.assertBlockProperty(TARGET, BeehiveBlock.HONEY_LEVEL, BeehiveBlock.MAX_HONEY_LEVELS - 1));
     }
 
 }
