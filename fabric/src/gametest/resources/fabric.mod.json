@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}_gametest",
+  "version": "${version}",
+  "name": "${mod_name} GameTests",
+  "description": "Game tests of ${mod_name}. Never part of a release.",
+  "license": "${mod_license}",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "de.cech12.ceramicshears.gametest.FabricGameTestAdapter"
+    ]
+  },
+  "depends": {
+    "${mod_id}": "*",
+    "fabric-gametest-api-v1": "*"
+  }
+}

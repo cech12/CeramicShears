@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:function",
+  "function": "ceramicshears:durability/config_change_applies_to_existing_shears",
+  "environment": "ceramicshears:durability_dynamic",
+  "structure": "ceramicshears:platform",
+  "max_ticks": 100
+}
