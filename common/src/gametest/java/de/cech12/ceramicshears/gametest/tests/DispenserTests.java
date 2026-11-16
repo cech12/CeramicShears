@@ -95,8 +95,10 @@ public final class DispenserTests {
                     helper.assertEntityNotPresent(EntityType.MOOSHROOM);
                     TestUtils.assertDamage(helper, dispenser.getItem(0), 1, "in dispenser after shearing a brown mooshroom");
                 })
-                .thenExecute(() -> KnownIssues.run(helper, "Forge 62.0.x - 64.x (26.1.x): sheared mooshrooms drop the shears instead of the mushrooms (MushroomCow#shearInternal adds the tool instead of the drop, also with vanilla shears), fixed in Forge 65.0.1 for 26.2", Set.of(Platforms.FORGE), () ->
-                        helper.assertItemEntityPresent(Items.BROWN_MUSHROOM)));
+                .thenExecute(() -> KnownIssues.run(helper, "Forge 62.0.x - 64.x (26.1.x): sheared mooshrooms drop the shears instead of the mushrooms (MushroomCow#shearInternal adds the tool instead of the drop, also with vanilla shears), fixed in Forge 65.0.1 for 26.2", Set.of(Platforms.FORGE), () -> {
+                    helper.assertItemEntityPresent(Items.BROWN_MUSHROOM);
+                    helper.assertItemEntityNotPresent(Items.RED_MUSHROOM);
+                }));
     }
 
     public static void shearsSnowGolem(GameTestHelper helper) {
@@ -160,6 +162,8 @@ public final class DispenserTests {
                     helper.assertTrue(helper.getLevel().getEntitiesOfClass(ItemEntity.class, helper.getBounds()).isEmpty(), "the dispenser dropped an item " + context);
                     helper.assertTrue(dispenser.getItem(0).is(TestUtils.ceramicShearsItem()), "the ceramic shears left the dispenser " + context);
                     TestUtils.assertDamage(helper, dispenser.getItem(0), 0, "in dispenser " + context);
+                    // the dispenser is powered and was triggered, so it really tried to use the shears
+                    helper.assertBlockProperty(DISPENSER, DispenserBlock.TRIGGERED, true);
                     for (Runnable check : checks) {
                         check.run();
                     }

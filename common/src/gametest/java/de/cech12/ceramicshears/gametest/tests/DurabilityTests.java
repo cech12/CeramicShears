@@ -7,6 +7,7 @@ import de.cech12.ceramicshears.platform.Services;
 import de.cech12.ceramicshears.platform.services.IConfigHelper;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.item.Items;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -52,6 +53,10 @@ public final class DurabilityTests {
         helper.assertValueEqual(GameTestPlatform.INSTANCE.defaultDurability(), DOCUMENTED_DEFAULT, "default durability of the config definition");
         helper.assertValueEqual(Services.CONFIG.getDurability(), DOCUMENTED_DEFAULT, "configured durability");
         assertMaxDamage(helper, TestUtils.ceramicShears(), DOCUMENTED_DEFAULT);
+        // direct component access (e.g. the minecraft:damage item predicate of loot tables and advancements) sees the
+        // same values as vanilla shears: damage 0 and the max damage of the config
+        helper.assertValueEqual(TestUtils.ceramicShears().get(DataComponents.DAMAGE), new ItemStack(Items.SHEARS).get(DataComponents.DAMAGE), "damage component of new ceramic shears");
+        helper.assertValueEqual(TestUtils.ceramicShears().get(DataComponents.MAX_DAMAGE), DOCUMENTED_DEFAULT, "max damage component of new ceramic shears");
         helper.succeed();
     }
 
@@ -127,6 +132,7 @@ public final class DurabilityTests {
         stack.set(DataComponents.MAX_DAMAGE, 50);
         stack.setDamageValue(10);
         assertMaxDamage(helper, stack, Services.CONFIG.getDurability());
+        helper.assertValueEqual(stack.get(DataComponents.MAX_DAMAGE), Services.CONFIG.getDurability(), "max damage component with a stored max damage");
         helper.assertTrue(Services.CONFIG.getDurability() != 50, "test setup broken: the configured durability is 50");
         TestUtils.assertDamage(helper, stack, 10, "with a stored max damage");
         helper.succeed();
