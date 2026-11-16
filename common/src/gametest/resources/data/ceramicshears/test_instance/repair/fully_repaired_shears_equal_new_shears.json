@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:function",
+  "function": "ceramicshears:repair/fully_repaired_shears_equal_new_shears",
+  "environment": "ceramicshears:default",
+  "structure": "ceramicshears:platform",
+  "max_ticks": 100
+}

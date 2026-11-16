@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:function",
+  "function": "ceramicshears:dispenser/shears_brown_mooshroom",
+  "environment": "ceramicshears:default",
+  "structure": "ceramicshears:platform",
+  "max_ticks": 100
+}

@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:function",
+  "function": "ceramicshears:recipe/furnace_smelts_clay_shears_part",
+  "environment": "ceramicshears:default",
+  "structure": "ceramicshears:platform",
+  "max_ticks": 300
+}

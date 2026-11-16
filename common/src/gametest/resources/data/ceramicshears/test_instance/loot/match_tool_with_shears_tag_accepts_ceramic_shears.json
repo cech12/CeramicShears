@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:function",
+  "function": "ceramicshears:loot/match_tool_with_shears_tag_accepts_ceramic_shears",
+  "environment": "ceramicshears:default",
+  "structure": "ceramicshears:platform",
+  "max_ticks": 100
+}

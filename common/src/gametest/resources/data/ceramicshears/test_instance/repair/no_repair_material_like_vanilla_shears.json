@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:function",
+  "function": "ceramicshears:repair/no_repair_material_like_vanilla_shears",
+  "environment": "ceramicshears:default",
+  "structure": "ceramicshears:platform",
+  "max_ticks": 100
+}

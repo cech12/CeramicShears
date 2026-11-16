@@ -1,0 +1,3 @@
+# Known harmless lines of the server log that the server start test ignores, in addition to the built-in ones of
+# scripts/server-starttest.sh in cech12/MinecraftModActions (Netty kqueue probing, LAN advertising in containers).
+# One extended regex per line. Keep the patterns as specific as possible and add the reason.

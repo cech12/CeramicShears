@@ -46,3 +46,54 @@ tasks.named('sourcesJar', Jar) {
     dependsOn(configurations.commonResources)
     from(configurations.commonResources)
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// GameTests
+// The test logic lives in common/src/gametest. Each loader compiles it together with its own thin adapter
+// (<loader>/src/gametest) into the "gametest" source set, which is only used by the runGameTestServer task and is
+// never part of the released jar.
+// ---------------------------------------------------------------------------------------------------------------------
+sourceSets {
+    gametest {
+        compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
+        runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.main.output
+    }
+}
+
+configurations {
+    commonGametestJava {
+        canBeResolved = true
+    }
+    commonGametestResources {
+        canBeResolved = true
+    }
+}
+
+dependencies {
+    commonGametestJava project(path: ':common', configuration: 'commonGametestJava')
+    commonGametestResources project(path: ':common', configuration: 'commonGametestResources')
+    // The common game tests compiled on their own (common:compileGametestJava). Two purposes:
+    // - IDE: the common sources are only added to the compileGametestJava task below, which IntelliJ does not see. With
+    //   the compiled classes on the compile classpath, IntelliJ resolves them in <loader>/src/gametest (like
+    //   compileOnly(project(':common')) for the main source set).
+    // - Build: the common game tests must compile against vanilla alone, which enforces "vanilla API only" (no access
+    //   to fields that only a loader widens). The loader still compiles the common sources itself (javac prefers them).
+    gametestCompileOnly project(path: ':common', configuration: 'commonGametestClasses')
+}
+
+tasks.named('compileGametestJava', JavaCompile) {
+    dependsOn(configurations.commonGametestJava)
+    source(configurations.commonGametestJava)
+}
+
+tasks.named('processGametestResources', ProcessResources) {
+    dependsOn(configurations.commonGametestResources)
+    from(configurations.commonGametestResources)
+    // separate test mods (Forge) need their own pack.mcmeta - reuse the one of the main mod to avoid duplicate pack formats
+    from(project(':common').file('src/main/resources/pack.mcmeta'))
+    var gametestExpandProps = ['version': version, 'mod_id': mod_id, 'mod_name': mod_name, 'mod_license': mod_license]
+    filesMatching(['fabric.mod.json', 'META-INF/mods.toml', 'pack.mcmeta']) {
+        expand gametestExpandProps
+    }
+    inputs.properties(gametestExpandProps)
+}

@@ -38,11 +38,27 @@ neoForge {
         server {
             server()
         }
+        // GameTests (see TESTING.md): ./gradlew :neoforge:runGameTestServer
+        gameTestServer {
+            type = "gameTestServer"
+            sourceSet = sourceSets.gametest
+            gameDirectory = this.mkdir(this.file("runs/gametest"))
+            programArguments.addAll '--tests', "${mod_id}:*".toString(), '--report', file('build/gametest-report.xml').getAbsolutePath()
+        }
     }
     mods {
+        // client, data and server runs: the mod without game tests
         "${mod_id}" {
             sourceSet sourceSets.main
         }
+        // game test run only: on NeoForge the game tests are part of the main mod (same mod id, no own mods.toml)
+        gametestMod {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.gametest
+        }
+    }
+    runs.configureEach { run ->
+        run.loadedMods = [run.name == 'gameTestServer' ? mods.gametestMod : mods."${mod_id}"]
     }
 }
 
