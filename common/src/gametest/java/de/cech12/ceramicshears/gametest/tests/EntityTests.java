@@ -48,6 +48,7 @@ public final class EntityTests {
         tests.add("entity/shears_sheep", EntityTests::shearsSheep);
         tests.add("entity/shears_in_creative_without_damage", EntityTests::shearsInCreativeWithoutDamage);
         tests.add("entity/shears_mooshroom", EntityTests::shearsMooshroom);
+        tests.add("entity/shears_brown_mooshroom", EntityTests::shearsBrownMooshroom);
         tests.add("entity/shears_snow_golem", EntityTests::shearsSnowGolem);
         tests.add("entity/shears_bogged", EntityTests::shearsBogged);
         tests.add("entity/shears_copper_golem", EntityTests::shearsCopperGolem);
@@ -107,6 +108,24 @@ public final class EntityTests {
                 })
                 .thenExecute(() -> KnownIssues.run(helper, "Forge 62.0.x - 64.x (26.1.x): sheared mooshrooms drop the shears instead of the mushrooms (MushroomCow#shearInternal adds the tool instead of the drop, also with vanilla shears), fixed in Forge 65.0.1 for 26.2", Set.of(Platforms.FORGE), () ->
                         helper.assertItemEntityPresent(Items.RED_MUSHROOM)));
+    }
+
+    /** Shearing a brown mooshroom (own loot table) turns it into a cow and drops brown mushrooms. */
+    public static void shearsBrownMooshroom(GameTestHelper helper) {
+        MushroomCow mooshroom = helper.spawn(EntityType.MOOSHROOM, TestUtils.CENTER);
+        TestUtils.setMooshroomVariant(mooshroom, MushroomCow.Variant.BROWN);
+        helper.assertValueEqual(mooshroom.getVariant(), MushroomCow.Variant.BROWN, "test setup broken: mooshroom variant");
+        ServerPlayer player = survivalPlayer(helper);
+        assertConsumed(helper, TestUtils.interact(player, mooshroom), "brown mooshroom");
+        helper.startSequence()
+                .thenWaitUntil(() -> {
+                    helper.assertEntityPresent(EntityType.COW);
+                    TestUtils.assertDamage(helper, player.getMainHandItem(), 1, "after shearing a brown mooshroom");
+                })
+                .thenExecute(() -> KnownIssues.run(helper, "Forge 62.0.x - 64.x (26.1.x): sheared mooshrooms drop the shears instead of the mushrooms (MushroomCow#shearInternal adds the tool instead of the drop, also with vanilla shears), fixed in Forge 65.0.1 for 26.2", Set.of(Platforms.FORGE), () -> {
+                    helper.assertItemEntityPresent(Items.BROWN_MUSHROOM);
+                    helper.assertItemEntityNotPresent(Items.RED_MUSHROOM);
+                }));
     }
 
     /** Shearing a snow golem removes its pumpkin. */

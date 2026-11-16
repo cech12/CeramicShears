@@ -3,6 +3,7 @@ package de.cech12.ceramicshears.gametest;
 import com.mojang.authlib.GameProfile;
 import de.cech12.ceramicshears.Constants;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ClientInformation;
@@ -12,6 +13,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.cow.MushroomCow;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -57,6 +59,25 @@ public final class TestUtils {
      */
     public static ItemStack ceramicShears() {
         return new ItemStack(ceramicShearsItem());
+    }
+
+    /**
+     * @return types of the components that are stored in the stack (added or removed compared to the item defaults)
+     */
+    public static java.util.Set<net.minecraft.core.component.DataComponentType<?>> storedComponentTypes(ItemStack stack) {
+        var split = stack.getComponentsPatch().split();
+        java.util.Set<net.minecraft.core.component.DataComponentType<?>> types = new java.util.HashSet<>(split.added().keySet());
+        types.addAll(split.removed());
+        return types;
+    }
+
+    /**
+     * Turns a mooshroom into the given variant (the variant setter is private, so it is applied like a spawn egg does).
+     */
+    public static void setMooshroomVariant(MushroomCow mooshroom, MushroomCow.Variant variant) {
+        ItemStack egg = new ItemStack(Items.MOOSHROOM_SPAWN_EGG);
+        egg.set(DataComponents.MOOSHROOM_VARIANT, variant);
+        mooshroom.applyComponentsFromItemStack(egg);
     }
 
     /**

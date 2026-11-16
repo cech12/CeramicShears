@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - the recipe advancement of the clay shears part checked the recipe of the ceramic shears part (found by the new game tests)
 - the Fabric version reported NeoForge as its platform (found by the new game tests) (Fabric/Quilt)
 - the Russian translation could not be loaded (invalid json) and its config tooltips were incomplete (found by the new game tests)
+- ceramic shears repaired to full durability in an anvil or with mending kept a stored damage of 0, so they differed from new shears (found by the new game tests)
 
 ## [26.1-4.0.1.1] - 2026-05-23
 ### Fixed

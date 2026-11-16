@@ -9,11 +9,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.cow.MushroomCow;
 import net.minecraft.world.entity.animal.golem.CopperGolem;
 import net.minecraft.world.entity.animal.golem.SnowGolem;
 import net.minecraft.world.entity.animal.pig.Pig;
 import net.minecraft.world.entity.animal.sheep.Sheep;
 import net.minecraft.world.entity.decoration.LeashFenceKnotEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.skeleton.Bogged;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,11 +40,14 @@ public final class DispenserTests {
     public static void register(CeramicShearsGameTests.TestCollector tests) {
         tests.add("dispenser/shears_sheep", DispenserTests::shearsSheep);
         tests.add("dispenser/shears_mooshroom", DispenserTests::shearsMooshroom);
+        tests.add("dispenser/shears_brown_mooshroom", DispenserTests::shearsBrownMooshroom);
         tests.add("dispenser/shears_snow_golem", DispenserTests::shearsSnowGolem);
         tests.add("dispenser/shears_bogged", DispenserTests::shearsBogged);
         tests.add("dispenser/shears_copper_golem", DispenserTests::shearsCopperGolem);
         tests.add("dispenser/harvests_full_beehive", DispenserTests::harvestsFullBeehive);
         tests.add("dispenser/cuts_leash", DispenserTests::cutsLeash);
+        tests.add("dispenser/does_not_shear_when_not_ready", DispenserTests::doesNotShearWhenNotReady);
+        tests.add("dispenser/keeps_shears_without_target", DispenserTests::keepsShearsWithoutTarget);
     }
 
     /** Places a dispenser with ceramic shears that faces the target position and powers it. */
@@ -75,6 +80,22 @@ public final class DispenserTests {
                 })
                 .thenExecute(() -> KnownIssues.run(helper, "Forge 62.0.x - 64.x (26.1.x): sheared mooshrooms drop the shears instead of the mushrooms (MushroomCow#shearInternal adds the tool instead of the drop, also with vanilla shears), fixed in Forge 65.0.1 for 26.2", Set.of(Platforms.FORGE), () ->
                         helper.assertItemEntityPresent(Items.RED_MUSHROOM)));
+    }
+
+    /** A dispenser shears a brown mooshroom (own loot table) and it drops brown mushrooms. */
+    public static void shearsBrownMooshroom(GameTestHelper helper) {
+        MushroomCow mooshroom = helper.spawnWithNoFreeWill(EntityType.MOOSHROOM, TARGET);
+        TestUtils.setMooshroomVariant(mooshroom, MushroomCow.Variant.BROWN);
+        helper.assertValueEqual(mooshroom.getVariant(), MushroomCow.Variant.BROWN, "test setup broken: mooshroom variant");
+        DispenserBlockEntity dispenser = dispense(helper);
+        helper.startSequence()
+                .thenWaitUntil(() -> {
+                    helper.assertEntityPresent(EntityType.COW);
+                    helper.assertEntityNotPresent(EntityType.MOOSHROOM);
+                    TestUtils.assertDamage(helper, dispenser.getItem(0), 1, "in dispenser after shearing a brown mooshroom");
+                })
+                .thenExecute(() -> KnownIssues.run(helper, "Forge 62.0.x - 64.x (26.1.x): sheared mooshrooms drop the shears instead of the mushrooms (MushroomCow#shearInternal adds the tool instead of the drop, also with vanilla shears), fixed in Forge 65.0.1 for 26.2", Set.of(Platforms.FORGE), () ->
+                        helper.assertItemEntityPresent(Items.BROWN_MUSHROOM)));
     }
 
     public static void shearsSnowGolem(GameTestHelper helper) {
@@ -129,6 +150,35 @@ public final class DispenserTests {
             helper.assertTrue(!pig.isLeashed(), "leash was not cut by the dispenser");
             TestUtils.assertDamage(helper, dispenser.getItem(0), 1, "in dispenser after cutting a leash");
         });
+    }
+
+    /** Asserts for some ticks that the dispenser keeps its undamaged ceramic shears and that nothing was dropped. */
+    private static void assertShearsKeptUnused(GameTestHelper helper, DispenserBlockEntity dispenser, String context) {
+        helper.startSequence()
+                .thenExecuteFor(20, () -> {
+                    helper.assertTrue(helper.getLevel().getEntitiesOfClass(ItemEntity.class, helper.getBounds()).isEmpty(), "the dispenser dropped an item " + context);
+                    helper.assertTrue(dispenser.getItem(0).is(TestUtils.ceramicShearsItem()), "the ceramic shears left the dispenser " + context);
+                    TestUtils.assertDamage(helper, dispenser.getItem(0), 0, "in dispenser " + context);
+                })
+                .thenSucceed();
+    }
+
+    /**
+     * Like with vanilla shears, a dispenser does not shear a mob that is not ready (an already sheared sheep): no wool
+     * is dropped and the shears are not damaged.
+     */
+    public static void doesNotShearWhenNotReady(GameTestHelper helper) {
+        Sheep sheep = helper.spawnWithNoFreeWill(EntityType.SHEEP, TARGET);
+        sheep.setSheared(true);
+        assertShearsKeptUnused(helper, dispense(helper), "after using it on a sheared sheep");
+    }
+
+    /**
+     * Like with vanilla shears, a dispenser without anything to shear in front keeps the shears (they are not dropped
+     * like other items) and does not damage them.
+     */
+    public static void keepsShearsWithoutTarget(GameTestHelper helper) {
+        assertShearsKeptUnused(helper, dispense(helper), "without target");
     }
 
 }
