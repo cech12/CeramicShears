@@ -14,18 +14,21 @@ on:
 
 jobs:
   build:
+    # build and game tests in one job: the game tests reuse the Minecraft setup and classes of the build
     name: Build
     uses: cech12/MinecraftModActions/.github/workflows/build.yml@main
     with:
       java-version: 25
-#  gametest:
-#    needs: build
-#    name: Game Test
-#    uses: cech12/MinecraftModActions/.github/workflows/gametest.yml@main
-#    with:
-#      java-version: 25
-  publish-github:
+      gametest: true
+  server-starttest:
     needs: build
+    name: Server Start Test
+    uses: cech12/MinecraftModActions/.github/workflows/server-starttest.yml@main
+    with:
+      loaders: '["fabric", "forge", "neoforge"]'
+  publish-github:
+    # only publish what passed all tests (build includes the game tests)
+    needs: [ build, server-starttest ]
     if: startsWith(github.ref, 'refs/tags/')
     name: Publish Github
     uses: cech12/MinecraftModActions/.github/workflows/multi-publish-github.yml@main

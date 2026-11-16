@@ -38,6 +38,11 @@ minecraft {
         server {
             workingDir = file('runs/server')
         }
+        // GameTests (see TESTING.md): ./gradlew :forge:runGameTestServer
+        gameTestServer {
+            workingDir = file('runs/gametest')
+            args '--tests', "${mod_id}:*".toString(), '--report', file('build/gametest-report.xml').absolutePath
+        }
         data {
             workingDir = file('runs/data')
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
@@ -45,8 +50,16 @@ minecraft {
     }
 }
 
-test {
-    failOnNoDiscoveredTests = false
+// ForgeGradle only creates run tasks for source sets that depend on Minecraft.
+configurations {
+    gametestImplementation.extendsFrom(implementation)
+}
+
+// ForgeGradle creates one run task per source set. Only the run of the gametest source set contains the tests, so the
+// common task name runGameTestServer (used by all loaders and the CI) delegates to it.
+tasks.matching { it.name == 'runGameTestServer' }.configureEach {
+    dependsOn 'runGametestGameTestServer'
+    enabled = false
 }
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
