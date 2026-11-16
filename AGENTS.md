@@ -43,8 +43,8 @@ and game tests in one job, then the server start test, for every loader on every
   `buildSrc/src/main/groovy/multiloader-common.gradle`.
 - One branch per Minecraft version, the default branch is `26.x`.
 - `CHANGELOG.md` follows Keep a Changelog, version scheme `<MC version>-<mod version>` (e.g. `26.3-4.2.1.0`).
-  Bugfix entries look like "... (thanks to X for the report) #N". Issues of the sister mods (Wooden Shears, Ceramic
-  Shears, Copper Shears share most features) are referenced with their full URL.
+  Bugfix entries look like "... (thanks to X for the report) #N". Issues of the sister mods (Wooden Shears and Copper Shears
+  share most features) are referenced with their full URL.
 - Every new feature or bugfix gets a game test (bugfixes as regression test that names the issue), and the feature
   table in `TESTING.md` is updated. Check that the new test fails when the feature is broken.
 - Each test needs a test instance json in `common/src/gametest/resources/data/ceramicshears/test_instance/`.

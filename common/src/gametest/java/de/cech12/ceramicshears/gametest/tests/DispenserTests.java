@@ -90,6 +90,7 @@ public final class DispenserTests {
             helper.assertEntityPresent(EntityTypes.COW);
             helper.assertEntityNotPresent(EntityTypes.MOOSHROOM);
             helper.assertItemEntityPresent(Items.BROWN_MUSHROOM);
+            helper.assertItemEntityNotPresent(Items.RED_MUSHROOM);
             TestUtils.assertDamage(helper, dispenser.getItem(0), 1, "in dispenser after shearing a brown mooshroom");
         });
     }
@@ -168,6 +169,8 @@ public final class DispenserTests {
                     helper.assertTrue(helper.getLevel().getEntitiesOfClass(ItemEntity.class, helper.getBounds()).isEmpty(), "the dispenser dropped an item " + context);
                     helper.assertTrue(dispenser.getItem(0).is(TestUtils.ceramicShearsItem()), "the ceramic shears left the dispenser " + context);
                     TestUtils.assertDamage(helper, dispenser.getItem(0), 0, "in dispenser " + context);
+                    // the dispenser is powered and was triggered, so it really tried to use the shears
+                    helper.assertBlockProperty(DISPENSER, DispenserBlock.TRIGGERED, true);
                     for (Runnable check : checks) {
                         check.run();
                     }
