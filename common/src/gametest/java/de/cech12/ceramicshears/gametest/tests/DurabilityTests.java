@@ -33,7 +33,7 @@ public final class DurabilityTests {
         tests.add("durability/stored_max_damage_is_ignored", DurabilityTests::storedMaxDamageIsIgnored);
     }
 
-    /** Default durability as documented (README, TESTING.md, config description). */
+    /** Default durability as documented (TESTING.md, config description and config tooltip). */
     private static final int DOCUMENTED_DEFAULT = 179;
 
     private static void assertMaxDamage(GameTestHelper helper, ItemStack stack, int expected) {

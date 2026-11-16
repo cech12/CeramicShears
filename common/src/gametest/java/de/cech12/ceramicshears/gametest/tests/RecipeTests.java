@@ -424,7 +424,12 @@ public final class RecipeTests {
         GrindstoneMenu grindstone = new GrindstoneMenu(0, player.getInventory(), ContainerLevelAccess.create(helper.getLevel(), helper.absolutePos(TestUtils.CENTER)));
         ItemStack grindstoneResult = combine(grindstone, TestUtils.ceramicShears(), TestUtils.ceramicShears());
         helper.assertTrue(grindstoneResult.isEmpty(), "unbreakable ceramic shears can be combined in a grindstone: " + grindstoneResult);
-        ItemStack anvilResult = combine(anvil(helper), TestUtils.ceramicShears(), TestUtils.ceramicShears());
+        // enchanted, so that the anvil would combine them if they were damageable (enchantments of both are merged)
+        ItemStack first = TestUtils.ceramicShears();
+        first.enchant(enchantment(helper, Enchantments.EFFICIENCY), 1);
+        ItemStack second = TestUtils.ceramicShears();
+        second.enchant(enchantment(helper, Enchantments.UNBREAKING), 1);
+        ItemStack anvilResult = combine(anvil(helper), first, second);
         helper.assertTrue(anvilResult.isEmpty(), "unbreakable ceramic shears can be combined in an anvil: " + anvilResult);
         helper.succeed();
     }
