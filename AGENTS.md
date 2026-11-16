@@ -43,7 +43,8 @@ and game tests in one job, then the server start test, for every loader on every
   `buildSrc/src/main/groovy/multiloader-common.gradle`.
 - One branch per Minecraft version, the default branch is `26.x`.
 - `CHANGELOG.md` follows Keep a Changelog, version scheme `<MC version>-<mod version>` (e.g. `26.2-4.1.0.0`).
-  Bugfix entries look like "... (thanks to X for the report) #N".
+  Bugfix entries look like "... (thanks to X for the report) #N". Issues of the sister mods (Wooden Shears, Ceramic
+  Shears, Copper Shears share most features) are referenced with their full URL.
 - Every new feature or bugfix gets a game test (bugfixes as regression test that names the issue), and the feature
   table in `TESTING.md` is updated. Check that the new test fails when the feature is broken.
 - Each test needs a test instance json in `common/src/gametest/resources/data/ceramicshears/test_instance/`.
@@ -51,14 +52,17 @@ and game tests in one job, then the server start test, for every loader on every
 ## Do not
 
 - Push directly to version branches (`26.x`, `1.21.1`, ...) or `main`. Use a feature branch and a pull request.
-- Create tags or releases, change `mod_version`, touch the publish jobs of the CI or any secrets.
-- Change mod behavior in a test PR. If a test reveals a bug, mark it with `KnownIssues` and open an issue.
+- Create tags or releases, touch the publish jobs of the CI or any secrets. Change `mod_version` only in a bugfix pull
+  request, together with its CHANGELOG entry (4th digit for bugfixes); the maintainer tags and releases.
+- Change mod behavior in a test-only PR. If a test reveals a bug that is not fixed in the same pull request, mark it
+  with `KnownIssues` and open an issue.
 
 ## Mod specific notes
 
 - The durability is not stored in the item: `DataComponentHolderMixin` (common) answers `MAX_DAMAGE`/`DAMAGE`
   from the config, `RepairItemRecipeMixin` (crafting) and `GrindstoneMenuMixin` (grindstone) remove the stored max
-  damage after repairing. Config changes therefore apply to existing items.
+  damage after repairing, `ItemStackMixin` removes a stored damage of 0 (anvil, mending), so fully repaired shears
+  equal new ones. Config changes therefore apply to existing items.
 - Fabric needs mixins for every vanilla `is(Items.SHEARS)` check (`fabric/.../mixin`, entity/block interactions,
   leash knot, tripwire) and `MatchToolMixin` for loot conditions. When a new Minecraft version adds shears
   interactions, check `block/drops_like_vanilla_shears` and the entity tests on Fabric first. The drop test fails if
