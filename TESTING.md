@@ -264,7 +264,8 @@ expected result on each loader, so a change of this behavior is noticed.
 
 The feature list was checked against the [Minecraft Wiki page about shears](https://minecraft.wiki/w/Shears) (all
 uses and the complete version history up to 1.21.11). Vanilla behavior that does not depend on the kind of shears is not
-tested separately: pumpkin face direction, bees getting angry, sounds, loot of chests and villager trades of vanilla
+tested separately: pumpkin face direction, bees getting angry, sounds, the "used" statistic (carving a pumpkin counts
+for vanilla shears on all loaders, `PumpkinBlock` names `Items.SHEARS` directly; accepted), loot of chests and villager trades of vanilla
 shears.
 
 ## Not tested automatically
