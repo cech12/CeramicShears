@@ -37,6 +37,17 @@ loom {
             ideConfigGenerated(true)
             runDir('runs/server')
         }
+        // GameTests (see TESTING.md): ./gradlew :fabric:runGameTestServer
+        gameTestServer {
+            server()
+            setConfigName('Fabric GameTest Server')
+            ideConfigGenerated(true)
+            source(sourceSets.gametest)
+            runDir('runs/gametest')
+            property('fabric-api.gametest')
+            property('fabric-api.gametest.filter', "${mod_id}:*".toString())
+            property('fabric-api.gametest.report-file', file('build/gametest-report.xml').absolutePath)
+        }
     }
 }
 
