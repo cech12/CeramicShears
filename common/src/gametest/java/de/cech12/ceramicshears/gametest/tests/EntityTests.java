@@ -53,6 +53,7 @@ public final class EntityTests {
         tests.add("entity/removes_saddle", EntityTests::removesSaddle);
         tests.add("entity/removes_wolf_armor", EntityTests::removesWolfArmor);
         tests.add("entity/removes_equipment_like_vanilla_shears", EntityTests::removesEquipmentLikeVanillaShears);
+        tests.add("entity/does_not_remove_equipment_when_not_allowed", EntityTests::doesNotRemoveEquipmentWhenNotAllowed);
         tests.add("entity/cuts_leash_of_entity", EntityTests::cutsLeashOfEntity);
         tests.add("entity/cuts_leash_knot", EntityTests::cutsLeashKnot);
     }
@@ -300,6 +301,83 @@ public final class EntityTests {
         }
         helper.assertTrue(problems.isEmpty(), "equipment removal differs from vanilla shears: " + problems);
         helper.succeed();
+    }
+
+    /**
+     * Situation in which vanilla shears do not remove equipment.
+     *
+     * @param name description
+     * @param slot equipment slot that must stay filled
+     * @param setup spawns the mob with its equipment for the given player and prepares the situation
+     */
+    private record NotAllowed(String name, EquipmentSlot slot, java.util.function.BiFunction<GameTestHelper, ServerPlayer, Mob> setup) {}
+
+    /**
+     * Like vanilla shears, ceramic shears do not remove equipment when vanilla does not allow it: a sneaking player, a
+     * ridden mob, equipment with Curse of Binding in survival and wolf armor of a wolf the player does not own. Nothing
+     * is removed or dropped and the shears are not damaged.
+     */
+    public static void doesNotRemoveEquipmentWhenNotAllowed(GameTestHelper helper) {
+        var binding = helper.getLevel().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT)
+                .getOrThrow(net.minecraft.world.item.enchantment.Enchantments.BINDING_CURSE);
+        List<NotAllowed> cases = List.of(
+                new NotAllowed("sneaking player", EquipmentSlot.SADDLE, (h, player) -> {
+                    player.setShiftKeyDown(true);
+                    return saddledPig(h);
+                }),
+                new NotAllowed("ridden pig", EquipmentSlot.SADDLE, (h, player) -> {
+                    Pig pig = saddledPig(h);
+                    h.spawn(EntityType.ZOMBIE, TestUtils.CENTER).startRiding(pig, true, false);
+                    h.assertTrue(pig.isVehicle(), "test setup broken: pig is not ridden");
+                    return pig;
+                }),
+                new NotAllowed("own wolf armor with Curse of Binding", EquipmentSlot.BODY, (h, player) -> {
+                    Wolf wolf = h.spawn(EntityType.WOLF, TestUtils.CENTER);
+                    wolf.tame(player);
+                    ItemStack armor = new ItemStack(Items.WOLF_ARMOR);
+                    armor.enchant(binding, 1);
+                    wolf.setItemSlot(EquipmentSlot.BODY, armor);
+                    return wolf;
+                }),
+                new NotAllowed("wolf armor of another owner", EquipmentSlot.BODY, (h, player) -> {
+                    Wolf wolf = h.spawn(EntityType.WOLF, TestUtils.CENTER);
+                    wolf.tame(TestUtils.player(h, GameType.SURVIVAL, ItemStack.EMPTY));
+                    wolf.setItemSlot(EquipmentSlot.BODY, new ItemStack(Items.WOLF_ARMOR));
+                    return wolf;
+                }));
+        List<String> problems = new ArrayList<>();
+        for (NotAllowed notAllowed : cases) {
+            ShearResult vanilla = useOnEquipment(helper, notAllowed, new ItemStack(Items.SHEARS));
+            ShearResult ceramic = useOnEquipment(helper, notAllowed, TestUtils.ceramicShears());
+            if (vanilla.removed() || vanilla.dropped() || vanilla.damage() != 0) {
+                problems.add(notAllowed.name() + ": test setup broken, vanilla shears remove it (" + vanilla + ")");
+            } else if (!ceramic.equals(vanilla)) {
+                problems.add(notAllowed.name() + ": " + ceramic + " instead of " + vanilla);
+            }
+        }
+        helper.assertTrue(problems.isEmpty(), "ceramic shears behave differently from vanilla shears: " + problems);
+        helper.succeed();
+    }
+
+    private static Pig saddledPig(GameTestHelper helper) {
+        Pig pig = helper.spawn(EntityType.PIG, TestUtils.CENTER);
+        pig.setItemSlot(EquipmentSlot.SADDLE, new ItemStack(Items.SADDLE));
+        return pig;
+    }
+
+    /** Uses the shears in a situation where equipment must not be removed and cleans up afterward. */
+    private static ShearResult useOnEquipment(GameTestHelper helper, NotAllowed notAllowed, ItemStack shears) {
+        ServerPlayer player = TestUtils.player(helper, GameType.SURVIVAL, shears);
+        Mob mob = notAllowed.setup().apply(helper, player);
+        TestUtils.interact(player, mob);
+        boolean removed = mob.getItemBySlot(notAllowed.slot()).isEmpty();
+        AABB area = mob.getBoundingBox().inflate(DROP_RADIUS);
+        List<ItemEntity> drops = helper.getLevel().getEntitiesOfClass(ItemEntity.class, area);
+        boolean dropped = !drops.isEmpty();
+        drops.forEach(ItemEntity::discard);
+        mob.getPassengers().forEach(net.minecraft.world.entity.Entity::discard);
+        mob.discard();
+        return new ShearResult(removed, dropped, player.getMainHandItem().getDamageValue());
     }
 
     /**

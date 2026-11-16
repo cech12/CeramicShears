@@ -29,6 +29,7 @@ public final class DurabilityTests {
         tests.add("durability/below_zero_makes_shears_unbreakable", DurabilityTests::zeroMakesShearsUnbreakable);
         tests.add("durability/shears_break_when_used_up", DurabilityTests::shearsBreakWhenUsedUp);
         tests.add("durability/config_change_applies_to_existing_shears", DurabilityTests::configChangeAppliesToExistingShears);
+        tests.add("durability/stored_max_damage_is_ignored", DurabilityTests::storedMaxDamageIsIgnored);
     }
 
     /** Default durability as documented (README, TESTING.md, config description). */
@@ -114,6 +115,20 @@ public final class DurabilityTests {
         helper.assertTrue(!stack.isDamageableItem(), "existing ceramic shears are still damageable after durability was set to 0");
         GameTestPlatform.INSTANCE.setDurability(IConfigHelper.DURABILITY_DEFAULT);
         assertMaxDamage(helper, stack, IConfigHelper.DURABILITY_DEFAULT);
+        helper.succeed();
+    }
+
+    /**
+     * Environment "default": shears that store a fixed max damage (combined in a grindstone before the fix of
+     * WoodenShears#51) still use the configured durability.
+     */
+    public static void storedMaxDamageIsIgnored(GameTestHelper helper) {
+        ItemStack stack = TestUtils.ceramicShears();
+        stack.set(DataComponents.MAX_DAMAGE, 50);
+        stack.setDamageValue(10);
+        assertMaxDamage(helper, stack, Services.CONFIG.getDurability());
+        helper.assertTrue(Services.CONFIG.getDurability() != 50, "test setup broken: the configured durability is 50");
+        TestUtils.assertDamage(helper, stack, 10, "with a stored max damage");
         helper.succeed();
     }
 

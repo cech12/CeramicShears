@@ -128,6 +128,7 @@ loader differences check the expected behavior of each loader (see "Data packs")
 | Part of the common tag `c:tools/shear` ([WoodenShears#17](https://github.com/cech12/WoodenShears/issues/17)) | `item/is_in_common_shears_tag` |
 | Enchantable like vanilla shears with every enchantment (Efficiency, Unbreaking, Mending, Curse of Vanishing), only with an anvil, not at the enchanting table (regression 1.20.6-2.3.0.1) | `item/is_enchantable_like_vanilla_shears` |
 | Mending repairs ceramic shears exactly like vanilla shears, shears mended to full durability store no leftover damage | `item/mending_repairs_like_vanilla_shears` |
+| All default components equal vanilla shears (tool rules incl. breaking blocks in creative, stack size, enchantability, rarity, ...), except name, model and durability | `item/has_the_components_of_vanilla_shears` |
 | Same mining speed and correct-tool behavior as vanilla shears for every block (cobweb, leaves, wool, ...) | `item/mines_like_vanilla_shears` |
 | Same durability loss as vanilla shears when breaking any block: 1 for every block except fire, also for blocks without hardness like grass ([WoodenShears#40](https://github.com/cech12/WoodenShears/issues/40) asked for no loss there and was closed in favor of the vanilla behavior) | `item/loses_durability_per_block_like_vanilla_shears` |
 | No furnace fuel, like vanilla shears (burn time 0 as the furnace of the loader determines it) | `item/is_no_fuel_like_vanilla_shears` |
@@ -150,6 +151,7 @@ config (`Services.CONFIG.getDurability()`).
 | 0 makes the shears unbreakable (not damageable, no max damage) | `durability/zero_makes_shears_unbreakable` |
 | Values below 0 behave like 0 | `durability/below_zero_makes_shears_unbreakable` |
 | Shears break after 179 uses (the default of the config definition) | `durability/shears_break_when_used_up` |
+| Shears with a stored max damage (combined in a grindstone before the fix of WoodenShears#51) use the configured durability | `durability/stored_max_damage_is_ignored` |
 | Config changes apply to already existing shears | `durability/config_change_applies_to_existing_shears` |
 
 The limits of `above_maximum_is_limited` and `below_zero_makes_shears_unbreakable` are implemented differently per
@@ -179,7 +181,7 @@ config file. On Forge, setting the value also saves the server config file in `f
 | Shears combined to full durability in an anvil store the same components as vanilla shears (only the repair cost; fixed: a damage of 0 was stored) | `repair/anvil_fully_repaired_shears_like_vanilla_shears` |
 | A single enchanted shears is disenchanted in a grindstone, the damage is kept and no max damage is stored | `repair/grindstone_disenchants_single_shears` |
 | Like vanilla shears there is no repair material: an anvil does not repair them with any item | `repair/no_repair_material_like_vanilla_shears` |
-| Unbreakable shears (durability 0) cannot be combined | `repair/not_possible_when_unbreakable` |
+| Unbreakable shears (durability 0) cannot be combined (crafting grid, grindstone, anvil) | `repair/not_possible_when_unbreakable` |
 
 ### Shearing entities (right-click)
 
@@ -195,6 +197,7 @@ config file. On Forge, setting the value also saves the server config file in `f
 | Equipment like a saddle can be cut off, with the same durability loss as vanilla shears | `entity/removes_saddle` |
 | Wolf armor can be removed by the owner, with the same durability loss as vanilla shears, and grants the advancement "Shear Brilliance" (fixed known issue 1.21-3.1.0.0) | `entity/removes_wolf_armor` |
 | Saddles, horse and nautilus armor, llama carpets and happy ghast harnesses are removed from every mob that can wear them, exactly like with vanilla shears (pig, strider, horses, donkey, mule, camels, llamas, happy ghast, nautiluses) | `entity/removes_equipment_like_vanilla_shears` |
+| Equipment is not removed when vanilla shears would not remove it either (sneaking player, ridden mob, Curse of Binding in survival, wolf armor of another owner): no drop, no durability loss | `entity/does_not_remove_equipment_when_not_allowed` |
 | Leash of an entity can be cut (1.21.9-3.6.0.1) | `entity/cuts_leash_of_entity` |
 | Leash knot on a fence can be removed and the shears lose one durability (1.21.9-3.6.0.1) | `entity/cuts_leash_knot` |
 
@@ -219,6 +222,7 @@ config file. On Forge, setting the value also saves the server config file in `f
 | Dispensers cut leashes | `dispenser/cuts_leash` |
 | Dispensers shear brown mooshrooms (brown mushrooms) | `dispenser/shears_brown_mooshroom` |
 | Dispensers do not shear mobs that are not ready (sheared sheep) and keep the shears without a target: no drop, no durability loss, the shears stay in the dispenser | `dispenser/does_not_shear_when_not_ready`, `dispenser/keeps_shears_without_target` |
+| Dispensers do not harvest beehives that are not full (honey level 4) | `dispenser/does_not_harvest_beehive_without_honey` |
 
 ### Data packs
 
