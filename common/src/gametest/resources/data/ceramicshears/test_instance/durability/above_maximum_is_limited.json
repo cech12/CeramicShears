@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:function",
+  "function": "ceramicshears:durability/above_maximum_is_limited",
+  "environment": "ceramicshears:durability_20000",
+  "structure": "ceramicshears:platform",
+  "max_ticks": 100
+}

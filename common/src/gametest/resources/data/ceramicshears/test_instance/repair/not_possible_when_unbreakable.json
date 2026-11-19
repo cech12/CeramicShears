@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:function",
+  "function": "ceramicshears:repair/not_possible_when_unbreakable",
+  "environment": "ceramicshears:durability_0",
+  "structure": "ceramicshears:platform",
+  "max_ticks": 100
+}

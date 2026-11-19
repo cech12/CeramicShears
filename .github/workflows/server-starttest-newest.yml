@@ -1,0 +1,24 @@
+# Weekly server start test with the newest loader and dependency versions (within the version ranges of the mod).
+# It notices when a new loader or dependency release breaks the mod, without blocking releases.
+# Scheduled workflows run on the default branch; it can also be started manually.
+
+name: Server Start Test (newest versions)
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    uses: cech12/MinecraftModActions/.github/workflows/build.yml@main
+    with:
+      java-version: 25
+  server-starttest:
+    needs: build
+    name: Server Start Test
+    uses: cech12/MinecraftModActions/.github/workflows/server-starttest.yml@main
+    with:
+      loaders: '["fabric", "forge", "neoforge"]'
+      versions: '["newest"]'

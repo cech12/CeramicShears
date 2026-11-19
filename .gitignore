@@ -23,3 +23,5 @@ eclipse
 run
 runs
 run-data
+# server start test (scripts/server-starttest.sh)
+.server-starttest

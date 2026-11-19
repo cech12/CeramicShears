@@ -19,7 +19,28 @@ dependencies {
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
 }
 
+sourceSets {
+    // game test logic shared by all loaders (see TESTING.md)
+    gametest {
+        compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
+    }
+}
+neoForge.addModdingDependenciesTo(sourceSets.gametest)
+
 configurations {
+    commonGametestJava {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    commonGametestResources {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    // compiled game tests (against vanilla only), see multiloader-loader.gradle
+    commonGametestClasses {
+        canBeResolved = false
+        canBeConsumed = true
+    }
     commonJava {
         canBeResolved = false
         canBeConsumed = true
@@ -33,6 +54,13 @@ configurations {
 artifacts {
     commonJava sourceSets.main.java.sourceDirectories.singleFile
     commonResources sourceSets.main.resources.sourceDirectories.singleFile
+    commonGametestJava sourceSets.gametest.java.sourceDirectories.singleFile
+    commonGametestResources sourceSets.gametest.resources.sourceDirectories.singleFile
+    sourceSets.gametest.output.classesDirs.each { dir ->
+        commonGametestClasses(dir) {
+            builtBy tasks.named('compileGametestJava')
+        }
+    }
 }
 
 
