@@ -1,0 +1,14 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="${mod_license}"
+[[mods]]
+modId="${mod_id}_gametest"
+version="${version}"
+displayName="${mod_name} GameTests"
+description='''Game tests of ${mod_name}. Never part of a release.'''
+[[dependencies.${mod_id}_gametest]]
+modId="${mod_id}"
+mandatory=true
+versionRange="[0,)"
+ordering="AFTER"
+side="BOTH"
