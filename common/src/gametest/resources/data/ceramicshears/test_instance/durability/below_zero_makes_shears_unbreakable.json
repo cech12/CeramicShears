@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:function",
+  "function": "ceramicshears:durability/below_zero_makes_shears_unbreakable",
+  "environment": "ceramicshears:durability_negative",
+  "structure": "ceramicshears:platform",
+  "max_ticks": 100
+}
